@@ -12,7 +12,7 @@ Environmental Conservation (AK DEC).
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Blocktt/AKDECtools/graphs/commit-activity)
 [![GitHub
-license](https://img.shields.io/github/license/Blocktt/AKDECtools)](https://github.com/Blocktt/AKDECtools/blob/master/LICENSE)
+license](https://img.shields.io/github/license/Blocktt/AKDECtools)](https://github.com/Blocktt/AKDECtools/blob/main/LICENSE)
 [![GitHub
 issues](https://img.shields.io/github/issues-raw/Blocktt/AKDECtools)](https://github.com/Blocktt/AKDECtools/issues)
 [![Github all
