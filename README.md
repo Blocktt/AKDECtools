@@ -3,10 +3,21 @@
 
 # AKDECtools
 
-<!-- badges: start -->
-<!-- badges: end -->
+Tools to support Water Quality Analyses by the Alaska Department of
+Environmental Conservation (AK DEC).
 
-The goal of AKDECtools is to …
+## Badges
+
+<!-- badges: start -->
+
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Blocktt/AKDECtools/graphs/commit-activity)
+[![GitHub
+license](https://img.shields.io/github/license/Blocktt/AKDECtools)](https://github.com/Blocktt/AKDECtools/blob/master/LICENSE)
+[![GitHub
+issues](https://img.shields.io/github/issues-raw/Blocktt/AKDECtools)](https://github.com/Blocktt/AKDECtools/issues)
+[![Github all
+releases](https://img.shields.io/github/downloads/Blocktt/AKDECtools/total)](https://github.com/Blocktt/AKDECtools/releases)
+<!-- badges: end -->
 
 ## Installation
 
@@ -18,28 +29,13 @@ You can install the development version of AKDECtools from
 devtools::install_github("Blocktt/AKDECtools")
 ```
 
-## Example
+## Purpose
 
-This is a basic example which shows you how to solve a common problem:
+AKDECtools provides various functions that support water quality
+analyses frequently undertaken by the AK DEC’s [Water Quality Monitoring
+and Assessment
+Program](https://dec.alaska.gov/water/water-quality/monitoring-and-assessment/).
 
-``` r
-library(AKDECtools)
-## basic example code
-```
+## Status
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+In development.
