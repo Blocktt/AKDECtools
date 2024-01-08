@@ -2,8 +2,7 @@
 % Please edit documentation in R/timeSeriesPlotlog10.R
 \name{timeSerieslog10}
 \alias{timeSerieslog10}
-\title{A function that produces time series plots (log10 scale) for WQ data
-depending on AU_ID, WQ constituent, or both.}
+\title{WQ time series plotting (log10 scale).}
 \usage{
 timeSerieslog10(data, AU_ID, constituent)
 }
@@ -18,6 +17,6 @@ timeSerieslog10(data, AU_ID, constituent)
 A log10-scaled plot
 }
 \description{
-A function that produces time series plots (log10 scale) for WQ data
+This function produces time series plots (log10 scale) for WQ data
 depending on AU_ID, WQ constituent, or both.
 }

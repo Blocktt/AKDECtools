@@ -1,5 +1,6 @@
-#Time series function
-#' A function that produces time series plots (log10 scale) for WQ data
+#' WQ time series plotting (log10 scale).
+#'
+#' This function produces time series plots (log10 scale) for WQ data
 #' depending on AU_ID, WQ constituent, or both.
 #'
 #' @import magrittr

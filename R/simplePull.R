@@ -1,5 +1,6 @@
-#Simple pull
-#' A simple function to pull specific data from a larger WQ dataset by either AU_ID
+#' Filter WQ data.
+#'
+#' A simple function to filter specific data from a larger WQ dataset by either AU_ID
 #' , constituent, or both
 #'
 #' @import magrittr

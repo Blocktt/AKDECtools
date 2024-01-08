@@ -2,8 +2,7 @@
 % Please edit documentation in R/timeSeriesPlot.R
 \name{timeSeries}
 \alias{timeSeries}
-\title{A function that produces time series plots for WQ data depending on AU_ID
-, WQ constituent, or both.}
+\title{WQ time series plotting.}
 \usage{
 timeSeries(data, AU_ID, constituent)
 }
@@ -18,6 +17,6 @@ timeSeries(data, AU_ID, constituent)
 A plot
 }
 \description{
-A function that produces time series plots for WQ data depending on AU_ID
-, WQ constituent, or both.
+This function produces time series plots for WQ data
+depending on AU_ID, WQ constituent, or both.
 }

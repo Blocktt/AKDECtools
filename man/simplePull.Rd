@@ -2,8 +2,7 @@
 % Please edit documentation in R/simplePull.R
 \name{simplePull}
 \alias{simplePull}
-\title{A simple function to pull specific data from a larger WQ dataset by either AU_ID
-, constituent, or both}
+\title{Filter WQ data.}
 \usage{
 simplePull(data, AU_ID, constituent)
 }
@@ -18,6 +17,6 @@ simplePull(data, AU_ID, constituent)
 A filtered dataset.
 }
 \description{
-A simple function to pull specific data from a larger WQ dataset by either AU_ID
+A simple function to filter specific data from a larger WQ dataset by either AU_ID
 , constituent, or both
 }

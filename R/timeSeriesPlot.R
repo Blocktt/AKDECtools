@@ -1,5 +1,7 @@
-#' A function that produces time series plots for WQ data depending on AU_ID
-#' , WQ constituent, or both.
+#' WQ time series plotting.
+#'
+#' This function produces time series plots for WQ data
+#' depending on AU_ID, WQ constituent, or both.
 #'
 #' @import magrittr
 #'
