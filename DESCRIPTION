@@ -15,7 +15,6 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     dplyr,
-    ggplot2,
-    stringr
+    ggplot2
 Depends: 
     magrittr
