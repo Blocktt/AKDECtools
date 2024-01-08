@@ -1,5 +1,6 @@
-#' A function that produces time series plots for WQ data depending on AU_ID
-#' , WQ constituent, or both.
+#Time series function
+#' A function that produces time series plots (log10 scale) for WQ data
+#' depending on AU_ID, WQ constituent, or both.
 #'
 #' @import magrittr
 #'
@@ -7,10 +8,10 @@
 #' @param AU_ID An AK DEC Assessment Unit (AU) Identifier
 #' @param constituent TADA.CharacteristicName as generated after running data_processing.R
 #'
-#' @return A plot
+#' @return A log10-scaled plot
 #' @export
 #'
-timeSeries <- function(data, AU_ID, constituent) {
+timeSerieslog10 <- function(data, AU_ID, constituent) {
 
   if(missing(AU_ID)) {
     filt <- data %>% dplyr::filter(TADA.CharacteristicName %in% constituent)
@@ -28,8 +29,9 @@ timeSeries <- function(data, AU_ID, constituent) {
     plt<-ggplot2::ggplot() +
       ggplot2::geom_point(data = filt, ggplot2::aes(x = ActivityStartDate,
                                   y = TADA.ResultMeasureValue),
-                 color = 'black',
+                 color = 'gray20',
                  size = 2, alpha = 0.8) +
+      ggplot2::scale_y_log10() +
       ggplot2::xlab('Time') +
       ggplot2::ylab(ifelse(val_name > 1, 'Result', paste0(filt$TADA.CharacteristicName
                                                  , ' ('
@@ -43,9 +45,10 @@ timeSeries <- function(data, AU_ID, constituent) {
     plt<-ggplot2::ggplot() +
       ggplot2::geom_point(data = filt, ggplot2::aes(x = ActivityStartDate,
                                   y = TADA.ResultMeasureValue),
-                 color = 'black',
+                 color = 'gray20',
                  size = 2, alpha = 0.8) +
       ggplot2::facet_wrap(~AUID_ATTNS) +
+      ggplot2::scale_y_log10() +
       ggplot2::xlab('Time') +
       ggplot2::ylab(ifelse(val_name > 1, 'Result', paste0(filt$TADA.CharacteristicName
                                                  , ' ('
@@ -61,9 +64,10 @@ timeSeries <- function(data, AU_ID, constituent) {
     plt<-ggplot2::ggplot() +
       ggplot2::geom_point(data = filt, ggplot2::aes(x = ActivityStartDate,
                                   y = TADA.ResultMeasureValue),
-                 color = 'black',
+                 color = 'gray20',
                  size = 2, alpha = 0.8) +
       ggplot2::facet_wrap(~TADA.CharacteristicName, scale = "free_y") +
+      ggplot2::scale_y_log10() +
       ggplot2::xlab('Time') +
       ggplot2::ylab(ifelse(val_name > 1, 'Result', paste0(filt$TADA.CharacteristicName
                                                  , ' ('
@@ -80,11 +84,12 @@ timeSeries <- function(data, AU_ID, constituent) {
     plt<-ggplot2::ggplot() +
       ggplot2::geom_point(data = filt, ggplot2::aes(x = ActivityStartDate,
                                   y = TADA.ResultMeasureValue),
-                 color = 'black',
+                 color = 'gray20',
                  size = 2, alpha = 0.8) +
       ggplot2::facet_grid(cols = ggplot2::vars(AUID_ATTNS),
                  rows = ggplot2::vars(TADA.CharacteristicName),
                  scales = "free_y") +
+      ggplot2::scale_y_log10() +
       ggplot2::xlab('Time') +
       ggplot2::ylab(ifelse(val_name > 1, 'Result', paste0(filt$TADA.CharacteristicName
                                                  , ' ('
@@ -98,4 +103,3 @@ timeSeries <- function(data, AU_ID, constituent) {
 
   return(plt)
 } # end if/else
-

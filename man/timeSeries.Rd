@@ -15,7 +15,7 @@ timeSeries(data, AU_ID, constituent)
 \item{constituent}{TADA.CharacteristicName as generated after running data_processing.R}
 }
 \value{
-A filtered dataset.
+A plot
 }
 \description{
 A function that produces time series plots for WQ data depending on AU_ID

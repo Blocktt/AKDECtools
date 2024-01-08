@@ -3,4 +3,5 @@
 export(simplePull)
 export(str_split_one)
 export(timeSeries)
+export(timeSerieslog10)
 import(magrittr)
