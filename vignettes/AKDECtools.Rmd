@@ -1,0 +1,105 @@
+---
+title: "AKDECtools"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{AKDECtools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(AKDECtools)
+```
+
+## Introduction
+
+The following vignette is associated with the [*AKDECtools*](https://github.com/Blocktt/AKDECtools) R package developed by Tetra Tech for the Alaska Department of Environmental Conservation (AK DEC). This vignette assumes that the user has relatively recent versions of [R](https://www.r-project.org/) and [RStudio](https://posit.co/download/rstudio-desktop/) installed and that they are familiar with the R coding language. Please direct any questions regarding the usage of the *AKDECtools* R package to Amber Bethe, AK DEC (amber.bethe\@alaska.gov).
+
+### Purpose
+
+The *AKDECtools* package has many functions that are useful to AK DEC staff and may be useful to others outside of that organization. Some functions are designed to manipulate data, others to evaluate water quality standards, and some are used for data visualization. Simply run `help(package = "AKDECtools")` to access the list of the package's functions. Each function is explained in detail below with examples.
+
+## Installing AKDECtools
+
+*AKDECtools* can be downloaded from Ben Block's GitHub repository using the following R code. Note, if you want to download this vignette with the package, use the second function that includes the vignette argument.
+
+```{r, eval = FALSE}
+# install.packages("devtools") # install devtools if necessary
+devtools::install_github("Blocktt/AKDECtools")
+
+# run the following to download vignette with the package
+devtools::install_github("Blocktt/AKDECtools", build_vignettes = TRUE)
+```
+
+# Data manipulation functions
+
+## simplePull
+
+The *simplePull* function is intended to filter specific data from a larger WQ dataset by either an assessment unit identifier (AU_ID), water quality constituent (TADA.CharacteristicName), or both. See function documentation by running `?AKDECtools::simplePull`. Note: TADA.CharacteristicName comes from the *TADA* R package (for AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R)) before running this function.
+
+Below are examples on how to use *simplePull* depending on whether a user wants to filter the input dataset by one or more AU_ID(s) and/or one or more constituent(s).
+
+```{r, eval=FALSE}
+# Load packages
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
+
+# Import the example file from the AKDECtools package
+df_ExampSamps <- read_csv(system.file("extdat/AK_Example_Samples.csv", package = "AKDECtools"), guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1 - single AU and single constituent
+
+test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 2 - multiple AUs and single constituent
+
+test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 3 - single AU and multiple constituents
+
+test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 4 - multiple AUs and multiple constituents
+
+test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Evaluate unique results in test_pull using the following code
+unique(test_pull$AU_ID) # returns unique AU_IDs in trimmed dataset
+unique(test_pull$TADA.CharacteristicName) # returns unqiue TADA.CharacteristicNames in trimmed dataset
+```
+
+# Water quality standards functions
+
+# Graphing functions
+
+## boxPlot
+
+See function documentation by running `?AKDECtools::boxPlot`.
+
+## boxPlotlog10
+
+See function documentation by running `?AKDECtools::boxPlotlog10`.
+
+## timeSeries
+
+See function documentation by running `?AKDECtools::timeSeries`.
+
+## timeSerieslog10
+
+See function documentation by running `?AKDECtools::timeSerieslog10`.
