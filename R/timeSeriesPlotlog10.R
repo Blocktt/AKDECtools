@@ -13,9 +13,9 @@
 #' # Examples 1-4, data from Excel
 #'\dontrun{
 #' # Packages
-#' library(readxl)
+#' library(readr) # readr is a tidyverse package to read CSVs
 #'
-#' df_ExampSamps <- read_excel(system.file("extdata/AK_Example_Samples.xlsx"
+#' df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
 #'                                        , package = "AKDECtools")
 #'                             , guess_max = 10^6)
 #'
