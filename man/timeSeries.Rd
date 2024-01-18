@@ -20,3 +20,40 @@ A plot
 This function produces time series plots for WQ data
 depending on AU_ID, WQ constituent, or both.
 }
+\examples{
+# Examples 1-4, data from Excel
+\dontrun{
+# Packages
+library(readxl)
+
+df_ExampSamps <- read_excel(system.file("extdata/AK_Example_Samples.xlsx"
+                                       , package = "AKDECtools")
+                            , guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1 - single AU and single constituent
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 2 - multiple AUs and single constituent
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 3 - single AU and multiple constituents
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 4 - multiple AUs and multiple constituents
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+}
+
+}
