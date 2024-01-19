@@ -1,6 +1,6 @@
 Package: AKDECtools
 Title: Tools to support Water Quality Analyses by Alaska DEC
-Version: 0.0.1.9021
+Version: 0.0.1.9040
 Authors@R: 
     person("Benjamin D.", "Block", , "Ben.Block@tetratech.com", role = c("aut", "cre"))
     person("Hannah", "Ferriby", , "Hannah.Ferriby@tetratech.com", role = c("aut", "cre"))

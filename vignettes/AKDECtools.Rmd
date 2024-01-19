@@ -24,7 +24,7 @@ The following vignette is associated with the [*AKDECtools*](https://github.com/
 
 ### Purpose
 
-The *AKDECtools* package has many functions that are useful to AK DEC staff and may be useful to others outside of that organization. Some functions are designed to manipulate data, others to evaluate water quality standards, and some are used for data visualization. Simply run `help(package = "AKDECtools")` to access the list of the package's functions. Each function is explained in detail below with examples.
+The *AKDECtools* package has many functions that are useful to AK DEC staff. Some functions are designed to manipulate data, others to evaluate water quality standards, and some are used for data visualization. Simply run `help(package = "AKDECtools")` to access the list of the package's functions. Each function is explained in detail below with examples.
 
 ## Installing AKDECtools
 
@@ -42,7 +42,9 @@ devtools::install_github("Blocktt/AKDECtools", build_vignettes = TRUE)
 
 ## simplePull
 
-The *simplePull* function is intended to filter specific data from a larger WQ dataset by either an assessment unit identifier (AU_ID), water quality constituent (TADA.CharacteristicName), or both. See function documentation by running `?AKDECtools::simplePull`. Note: TADA.CharacteristicName comes from the *TADA* R package (for AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R)) before running this function.
+The *simplePull* function is intended to filter specific data from a larger WQ dataset by either an assessment unit identifier (AU_ID), water quality constituent (TADA.CharacteristicName), or both. Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::simplePull`.
+
+Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
 
 Below are examples on how to use *simplePull* depending on whether a user wants to filter the input dataset by one or more AU_ID(s) and/or one or more constituent(s).
 
@@ -52,7 +54,7 @@ library(readr) # readr is a tidyverse package to read CSVs
 library(AKDECtools)
 
 # Import the example file from the AKDECtools package
-df_ExampSamps <- read_csv(system.file("extdat/AK_Example_Samples.csv", package = "AKDECtools"), guess_max = 10^6)
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools"), guess_max = 10^6)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1 - single AU and single constituent
@@ -90,16 +92,169 @@ unique(test_pull$TADA.CharacteristicName) # returns unqiue TADA.CharacteristicNa
 
 ## boxPlot
 
-See function documentation by running `?AKDECtools::boxPlot`.
+The *boxPlot* function produces boxplots for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::boxPlot`.
+
+Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
+
+Below are examples on how to use *boxPlot* depending on whether a user wants to create a single boxplot of an AU_ID and constituent combination or multiple boxplots from combinations of AU_IDs and constituents.
+
+```{r, eval=FALSE}
+# Load packages
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
+
+# Import the example file from the AKDECtools package
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
+                          , guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1 - single AU and single constituent
+
+boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 2 - multiple AUs and single constituent
+
+boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 3 - single AU and multiple constituents
+
+boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 4 - multiple AUs and multiple constituents
+
+boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ## boxPlotlog10
 
-See function documentation by running `?AKDECtools::boxPlotlog10`.
+The *boxPlotlog10* function produces boxplots (log10 scale) for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::boxPlotlog10`.
+
+Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
+
+Below are examples on how to use *boxPlotlog10* depending on whether a user wants to create a single boxplot of an AU_ID and constituent combination or multiple boxplots from combinations of AU_IDs and constituents.
+
+```{r, eval=FALSE}
+# Load packages
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
+
+# Import the example file from the AKDECtools package
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
+                          , guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1 - single AU and single constituent
+
+boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 2 - multiple AUs and single constituent
+
+boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 3 - single AU and multiple constituents
+
+boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 4 - multiple AUs and multiple constituents
+
+boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+```
 
 ## timeSeries
 
-See function documentation by running `?AKDECtools::timeSeries`.
+The *timeSeries* function produces time series plots for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::timeSeries`.
+
+Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
+
+Below are examples on how to use *timeSeries* depending on whether a user wants to create a single time series plot of an AU_ID and constituent combination or multiple time series plots from combinations of AU_IDs and constituents.
+
+```{r, eval=FALSE}
+# Load packages
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
+
+# Import the example file from the AKDECtools package
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
+                          , guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1 - single AU and single constituent
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 2 - multiple AUs and single constituent
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 3 - single AU and multiple constituents
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 4 - multiple AUs and multiple constituents
+
+timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+```
 
 ## timeSerieslog10
 
-See function documentation by running `?AKDECtools::timeSerieslog10`.
+The *timeSerieslog10* function produces time series plots (log10 scale) for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::timeSerieslog10`.
+
+Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
+
+Below are examples on how to use *timeSerieslog10* depending on whether a user wants to create a single time series plot of an AU_ID and constituent combination or multiple time series plots from combinations of AU_IDs and constituents.
+
+```{r, eval=FALSE}
+# Load packages
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
+
+# Import the example file from the AKDECtools package
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
+                          , guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1 - single AU and single constituent
+
+timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 2 - multiple AUs and single constituent
+
+timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 3 - single AU and multiple constituents
+
+timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 4 - multiple AUs and multiple constituents
+
+timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
+, constituent = c('PH', 'TEMPERATURE, WATER'))
+```

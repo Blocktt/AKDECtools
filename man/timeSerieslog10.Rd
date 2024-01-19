@@ -17,8 +17,10 @@ timeSerieslog10(data, AU_ID, constituent)
 A log10-scaled plot
 }
 \description{
-This function produces time series plots (log10 scale) for WQ data
-depending on AU_ID, WQ constituent, or both.
+The timeSerieslog10 function produces time series plots (log10 scale) for
+WQ data depending on an assessment unit identifier (AU_ID) and water quality
+constituent (TADA.CharacteristicName). Multiple values can be entered into
+either argument.
 }
 \examples{
 # Examples 1-4, data from Excel

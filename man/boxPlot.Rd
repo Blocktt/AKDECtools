@@ -17,8 +17,9 @@ boxPlot(data, AU_ID, constituent)
 A boxplot
 }
 \description{
-This function produces boxplots for WQ datadepending on AU_ID, WQ constituent
-, or both.
+The boxPlot function produces boxplots for WQ data depending on an assessment
+unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName).
+Multiple values can be entered into either argument.
 }
 \examples{
 # Examples 1-4, data from Excel

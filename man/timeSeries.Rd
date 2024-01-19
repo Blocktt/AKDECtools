@@ -17,8 +17,9 @@ timeSeries(data, AU_ID, constituent)
 A plot
 }
 \description{
-This function produces time series plots for WQ data
-depending on AU_ID, WQ constituent, or both.
+The timeSeries function produces time series plots for WQ data depending on
+an assessment unit identifier (AU_ID) and water quality constituent
+(TADA.CharacteristicName). Multiple values can be entered into either argument.
 }
 \examples{
 # Examples 1-4, data from Excel

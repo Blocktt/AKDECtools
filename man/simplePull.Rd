@@ -17,8 +17,10 @@ simplePull(data, AU_ID, constituent)
 A filtered dataset.
 }
 \description{
-A simple function to filter specific data from a larger WQ dataset by either AU_ID
-, constituent, or both
+The simplePull function is intended to filter specific data from a larger WQ
+dataset by either an assessment unit identifier (AU_ID), water quality
+constituent (TADA.CharacteristicName), or both. Multiple values can be
+entered into either argument.
 }
 \examples{
 # Examples 1-4, data from Excel
