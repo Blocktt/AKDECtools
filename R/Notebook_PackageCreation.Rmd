@@ -1,0 +1,56 @@
+---
+title: "Notebook, AKDECtools"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+Package creation helper code chunks.
+
+# Package
+
+Package related code.
+
+## Create Package
+
+Use the code below to create the package. Assumes you are in the development package directory
+
+```{r, eval=FALSE}
+# NEWS
+# Render then Copy NEWS so picked up in help
+rmarkdown::render("NEWS.Rmd", "all")
+file.copy("NEWS.md", "NEWS", overwrite = TRUE)
+file.remove("NEWS.html")
+#file.remove("NEWS.md")
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Library Name
+myPkg <- "AKDECtools"
+# Load Library
+library(devtools)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create Package
+# create(myLibrary)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# files to library folder
+# file.copy("metric.values.R","./Library/MMIcalc/R/metric.values.R",overwrite=TRUE)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Document, Install, and Reload Library
+## Generate Documentation
+#setwd(file.path(".", myPkg))
+devtools::document()
+## Install New Package (locally)
+setwd("..") # return to root directory first
+devtools::install(myPkg, quick=FALSE, reload=TRUE, build_vignettes = TRUE)
+
+myPkg <- "AKDECtools"
+# blank row above allows for the code to continue instead of waiting for user response to pkg updates.
+## Reload library
+library(myPkg, character.only = TRUE)
+# change wd back to package
+setwd(paste0("./", myPkg))
+# Help page
+help(package=(myPkg))
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```

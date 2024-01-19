@@ -26,11 +26,17 @@ Tools to support Water Quality Analyses by the Alaska Department of Environmenta
 
 ## Installation
 
-You can install the development version of AKDECtools from [GitHub](https://github.com/) with:
+To install the current version use the code below to install from GitHub. The use of “force = TRUE” ensures the package is installed even if already present. If the package `remotes` is missing the code below will install it.
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("Blocktt/AKDECtools")
+if(!require(remotes)){install.packages("remotes")}  #install if needed
+install_github("Blocktt/AKDECtools", force=TRUE)
+```
+The vignette (big help file) isn’t created when installing from GitHub with the basic `install_github` command. If you want the vignette install with the code below.
+
+```r
+if(!require(remotes)){install.packages("remotes")}  #install if needed
+install_github("Blocktt/AKDECtools", force=TRUE, build_vignettes=TRUE)
 ```
 
 ## Purpose
