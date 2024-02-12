@@ -25,7 +25,7 @@ cat(paste0("Last Update: ",Sys.time()))
 
 -   Update: 
     - Updated plotting functions
-    - Added Magnitude, frequency, duration function
+    - Added Magnitude, frequency, duration functions
     
 # AKDECtools 0.0.1.9040 (2024-01-05)
 
