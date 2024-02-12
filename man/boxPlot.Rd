@@ -4,25 +4,27 @@
 \alias{boxPlot}
 \title{WQ boxplot.}
 \usage{
-boxPlot(data, AU_ID, constituent)
+boxPlot(data, WQS_table, AU_ID, y_axis_log)
 }
 \arguments{
 \item{data}{A WQ dataset in long format. Must contain either AU_ID or TADA.CharacteristicName}
 
+\item{WQS_table}{Water quality standards crosswalk table}
+
 \item{AU_ID}{An AK DEC Assessment Unit (AU) Identifier}
 
-\item{constituent}{TADA.CharacteristicName as generated after running data_processing.R}
+\item{y_axis_log}{A TRUE/FALSE argument that specifies whether the Y-axis should be Log10 scaled}
 }
 \value{
 A boxplot
 }
 \description{
-The boxPlot function produces boxplots for WQ data depending on an assessment
-unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName).
-Multiple values can be entered into either argument.
+The boxPlot function produces boxplots for WQ data depending on
+an assessment unit identifier (AU_ID). Each WQ characteristic is plotted separately.
+The y-axis can be Log10 scaled using a TRUE/FALSE argument.
 }
 \examples{
-# Examples 1-4, data from Excel
+# Example, data from Excel
 \dontrun{
 # Packages
 library(readr) # readr is a tidyverse package to read CSVs
@@ -31,29 +33,16 @@ df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
                                        , package = "AKDECtools")
                             , guess_max = 10^6)
 
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv"
+                                       , package = "AKDECtools")
+                            , guess_max = 10^6)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1 - single AU and single constituent
 
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH'))
+boxPlot(data = df_ExampSamps, WQS_table = df_WQS_Crosswalk
+, AU_ID = c('AK_R_1010504_005'), y_axis_log = F)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 2 - multiple AUs and single constituent
-
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 3 - single AU and multiple constituents
-
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 4 - multiple AUs and multiple constituents
-
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
