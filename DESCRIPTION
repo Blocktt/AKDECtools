@@ -17,7 +17,12 @@ Config/testthat/edition: 3
 Imports: 
     dplyr,
     ggplot2,
-    viridis
+    lubridate,
+    psych,
+    stringr,
+    tidyr,
+    viridis,
+    zoo
 Depends: 
     magrittr
 VignetteBuilder: knitr
