@@ -21,6 +21,12 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+# AKDECtools 0.0.1.9100 (2024-02-12)
+
+-   Update: 
+    - Updated plotting functions
+    - Added Magnitude, frequency, duration function
+    
 # AKDECtools 0.0.1.9040 (2024-01-05)
 
 -   Update: 
