@@ -237,12 +237,12 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
             #If more than 2 exceedances in 3 years assign value of 1, else 0
             #Left bound is date - 3 years, right bound is date
             dplyr::mutate(Exceedances = ifelse(purrr::map_dbl(ActivityStartDate,
-                                                       ~sum(bad_samp[dplyr::between(ActivityStartDate, .x - years(3), .x)]))>=2, 1, 0),
+                                                       ~sum(bad_samp[dplyr::between(ActivityStartDate, .x - lubridate::years(3), .x)]))>=2, 1, 0),
                           #Give every samples a count of 1
                           r_count = 1.0,
                           #Total up number of samples in last 3 years
                           num_samples_3yrs = purrr::map_dbl(ActivityStartDate,
-                                                     ~sum(r_count[dplyr::between(ActivityStartDate, .x - years(3), .x)])),
+                                                     ~sum(r_count[dplyr::between(ActivityStartDate, .x - lubridate::years(3), .x)])),
                           #Calculate exceedance frequency
                           Exceed_Freq = Exceedances/num_samples_3yrs,
                           #Determine if exceedance criteria met
@@ -292,7 +292,7 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
               dplyr::filter(w_year >= max_year - 3) %>%
               dplyr::group_by(ActivityStartDate) %>%
               dplyr::mutate(roll_4day_mean = purrr::map_dbl(ActivityStartDate,
-                                                     ~mean(TADA.ResultMeasureValue[dplyr::between(ActivityStartDate, .x - days(4), .x)])),
+                                                     ~mean(TADA.ResultMeasureValue[dplyr::between(ActivityStartDate, .x - lubridate::days(4), .x)])),
                             bad_samp = ifelse(roll_4day_mean >= magnitude, 1, 0))
 
             bad_tot <- results %>% dplyr::select(ActivityStartDate, bad_samp) %>% unique() %>% stats::na.omit()
@@ -371,7 +371,7 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
               dplyr::filter(w_year >= max_year - 3) %>%
               dplyr::group_by(ActivityStartDate) %>%
               dplyr::mutate(roll_4day_mean = purrr::map_dbl(ActivityStartDate,
-                                                     ~mean(TADA.ResultMeasureValue[dplyr::between(ActivityStartDate, .x - days(4), .x)])),
+                                                     ~mean(TADA.ResultMeasureValue[dplyr::between(ActivityStartDate, .x - lubridate::days(4), .x)])),
                             bad_samp = ifelse(roll_4day_mean >= Magnitude, 1, 0))
 
             bad_tot <- results %>% dplyr::select(ActivityStartDate, bad_samp) %>% unique() %>% stats::na.omit()
@@ -466,7 +466,7 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
             dplyr::filter(w_year >= max_year - 3) %>%
             dplyr::group_by(ActivityStartDate) %>%
             dplyr::mutate(roll_30day_mean = purrr::map_dbl(ActivityStartDate,
-                                                    ~mean(TADA.ResultMeasureValue[dplyr::between(ActivityStartDate, .x - days(30), .x)])),
+                                                    ~mean(TADA.ResultMeasureValue[dplyr::between(ActivityStartDate, .x - lubridate::days(30), .x)])),
                           bad_samp = ifelse(roll_30day_mean >= Magnitude, 1, 0))
 
           bad_tot <- results %>% dplyr::select(ActivityStartDate, bad_samp) %>% unique() %>% stats::na.omit()
