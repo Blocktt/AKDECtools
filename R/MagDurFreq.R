@@ -72,7 +72,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
     # Filter data for just AU and make water year
     df_subset <- input_samples_filtered %>%
       dplyr::filter(AUID_ATTNS == i) %>%
-      mutate(year = lubridate::year(ActivityStartDate),
+      dplyr::mutate(year = lubridate::year(ActivityStartDate),
              month = lubridate::month(ActivityStartDate),
              w_year = ifelse(month < 10, year, year+1))
 

@@ -81,7 +81,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
     # filter data
     df_subset <- input_samples_filtered_relevant %>%
       dplyr::filter(AUID_ATTNS == i) %>%
-      dplyr::mutate(year = year(ActivityStartDate),
+      dplyr::mutate(year = lubridate::year(ActivityStartDate),
                     month = month(ActivityStartDate),
                     w_year = ifelse(month < 10, year, year+1))
 

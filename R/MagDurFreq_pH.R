@@ -76,7 +76,7 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
     # dplyr::filter data
     df_subset <- input_samples_filtered %>% #CHANGE to input_samples_filtered_relevant
       dplyr::filter(AUID_ATTNS == i) %>%
-      dplyr::mutate(year = year(ActivityStartDate),
+      dplyr::mutate(year = lubridate::year(ActivityStartDate),
                     month = month(ActivityStartDate),
                     w_year = ifelse(month < 10, year, year+1))
 
@@ -217,7 +217,7 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
         } else {
           #Calculate the min() part of the equation from Toxics Manual Appendix D
           match_dates_w_min <- match_dates %>%
-            mutate(Min_Value = ifelse(1.45*10^(0.028*(25-temp)) > 2.85, 2.85, 1.45*10^(0.028*(25-temp))))
+            dplyr::mutate(Min_Value = ifelse(1.45*10^(0.028*(25-temp)) > 2.85, 2.85, 1.45*10^(0.028*(25-temp))))
 
           #Calculate magnitude, rolling 30 day average, and if something is a "bad sample"
           joined <- match_dates_w_min %>%

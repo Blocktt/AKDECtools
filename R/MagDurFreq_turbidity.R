@@ -86,7 +86,7 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
     df_subset <- input_samples_filtered %>%
       dplyr::filter(AUID_ATTNS == i) %>%
       dplyr::filter(TADA.CharacteristicName == 'TURBIDITY') %>%
-      mutate(year = lubridate::year(ActivityStartDate),
+      dplyr::mutate(year = lubridate::year(ActivityStartDate),
              month = lubridate::month(ActivityStartDate),
              w_year = ifelse(month < 10, year, year+1))
 
