@@ -120,9 +120,9 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
 
     #Pull reference value for AU
     au_reference_conditions <- reference_sites_mean %>%
-      filter(AUID_ATTNS == i) %>%
-      select(mean_reference) %>%
-      pull()
+      dplyr::filter(AUID_ATTNS == i) %>%
+      dplyr::select(mean_reference) %>%
+      dplyr::pull()
 
     #Cycle through each parameter to calculate the mag/freq/dur
     for(j in 1:nrow(my_data_magfreqdur)) {
