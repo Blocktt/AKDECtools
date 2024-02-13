@@ -43,7 +43,8 @@
 #' , ReferenceSites = sites)
 #'
 #' # run MagDurFreq_hardness
-#' MagDurFreq_hardness(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency)
+#' MagDurFreq_turbidity(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency
+#' , reference_sites)
 #'
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' }

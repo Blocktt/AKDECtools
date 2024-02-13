@@ -54,7 +54,8 @@ library(readr) # readr is a tidyverse package to read CSVs
 library(AKDECtools)
 
 # Import the example file from the AKDECtools package
-df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools"), guess_max = 10^6)
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
+                          , guess_max = 10^6)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1 - single AU and single constituent
@@ -88,142 +89,280 @@ unique(test_pull$TADA.CharacteristicName) # returns unqiue TADA.CharacteristicNa
 
 # Water quality standards functions
 
+The following set of functions are intended to be used in sequence to process data that are output from [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R). The end results will be exceedance determinations and IR category assignments for each AU/characteristic combination and overall IR category assignments for each AU.
+
+## filterCat3samples
+
+The *filterCat3samples* function filters the water quality data sufficiency output from *data_processing.R* (WQ_metadata_trimmed_with_data_sufficiency_yyyymmdd.csv) to only include the AU/characteristic combinations that are sufficient (Data_Sufficient == 'Yes'). The water quality data associated with those combinations are then filtered to be used in subsequent functions (referred to as 'input_samples_filtered' in functions below). See function documentation by running `?AKDECtools::filterCat3samples`.
+
+Here is an example of the *filterCat3samples* function.
+
+```{r, eval=FALSE}
+# Load packages
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
+
+# Import the example file from the AKDECtools package
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
+                          , guess_max = 10^6)
+
+df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv", package = "AKDECtools")
+                                , guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example
+input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
+                                            , data_sufficiency = df_Data_Sufficiency)
+```
+
+## MagDurFreq
+
+The following are a set of functions that evaluate input water quality data, filtered using *filterCat3samples,* against Alaska's surface water quality standards (WQS) using a crosswalk table. The crosswalk table was developed by AK DEC and Tetra Tech and can be retrieved from within the package using the code below.
+
+```{r, eval=FALSE}
+# Load water quality standards crosswalk table 
+df_WQS_Crosswalk <- read_csv(system.file("extdata /AK_WQS_Crosswalk.csv", package = "AKDECtools")
+                             , guess_max = 10^6)
+```
+
+The functions include:
+
+-   **MagDurFreq**: Applies water quality standards for all characteristics that are not hardness-, pH-, or turbidity-dependent.
+
+-   **MagDurFreq_hardness**: Applies hardness-dependent water quality standards.
+
+-   **MagDurFreq_pH**: Applies pH-dependent water quality standards.
+
+-   **MagDurFreq_turbidity**: Applies turbidity-dependent water quality standards.
+
+-   **MagDurFreq_combine**: Combines results from all four MagDurFreq functions above.
+
+### Standard Output
+
+The *MagDurFreq* function applies water quality standards for all characteristics that are not hardness-, pH-, or turbidity-dependent. Inputs include the data sufficiency results from *data_processing.R*, the data-sufficient water quality data generated using *filterCat3samples*, and the WQS crosswalk table. See function documentation by running `?AKDECtools::MagDurFreq`.
+
+See below for an example of the *MagDurFreq* function.
+
+```{r, eval=FALSE}
+#Load packages 
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)  # Import the example file from the AKDECtools package 
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
+                          , guess_max = 10^6)
+
+df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv", package = "AKDECtools")
+                                , guess_max = 10^6)
+
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv"
+                                         , package = "AKDECtools"), guess_max = 10^6)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 
+# Filter samples to only those with sufficient data to make MagDurFreq run more quickly
+input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
+                                            , data_sufficiency = df_Data_Sufficiency)
+
+# run MagDurFreq
+MagDurFreq(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency)
+```
+
+### Hardness-Dependent
+
+The *MagDurFreq_hardness* function applies water quality standards for all characteristics that are hardness-dependent. Inputs include the water quality data and data sufficiency results from *data_processing.R*, the data-sufficient water quality data generated using *filterCat3samples*, and the WQS crosswalk table. See function documentation by running `?AKDECtools::MagDurFreq_hardness`.
+
+See below for an example of the *MagDurFreq_hardness* function.
+
+```{r, eval=FALSE}
+#Load packages 
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)  # Import the example file from the AKDECtools package 
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
+                                      , package = "AKDECtools"), guess_max = 10^6)
+
+df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
+                                            , package = "AKDECtools"), guess_max = 10^6)
+
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv"
+                                         , package = "AKDECtools"), guess_max = 10^6)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 
+# Filter samples to only those with sufficient data to make MagDurFreq run more quickly
+input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
+                                            , data_sufficiency = df_Data_Sufficiency)
+
+# run MagDurFreq_hardness
+MagDurFreq_hardness(df_WQS_Crosswalk, df_ExampSamps, input_samples_filtered, df_Data_Sufficiency)
+```
+
+### pH-Dependent
+
+The *MagDurFreq_pH* function applies water quality standards for all characteristics that are pH-dependent. Inputs include the water quality data and data sufficiency results from *data_processing.R*, the data-sufficient water quality data generated using *filterCat3samples*, and the WQS crosswalk table. See function documentation by running `?AKDECtools::MagDurFreq_pH`.
+
+See below for an example of the *MagDurFreq_pH* function.
+
+```{r, eval=FALSE}
+#Load packages 
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)  # Import the example file from the AKDECtools package 
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
+                                      , package = "AKDECtools"), guess_max = 10^6)
+
+df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
+                                            , package = "AKDECtools"), guess_max = 10^6)
+
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv"
+                                         , package = "AKDECtools"), guess_max = 10^6)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example
+# Filter samples to only those with sufficient data to make MagDurFreq run more quickly
+input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
+                                            , data_sufficiency = df_Data_Sufficiency)
+
+# run MagDurFreq_pH
+MagDurFreq_pH(df_WQS_Crosswalk, df_ExampSamps, input_samples_filtered, df_Data_Sufficiency)
+```
+
+### Turbidity-Dependent
+
+The *MagDurFreq_turbidity* function applies water quality standards for all characteristics that are turbidity-dependent. Inputs include the water quality data and data sufficiency results from *data_processing.R*, the data-sufficient water quality data generated using *filterCat3samples*, the WQS crosswalk table, and a reference lookup table for each AU. See function documentation by running `?AKDECtools::MagDurFreq_turbidity`.
+
+See below for an example of the *MagDurFreq_turbidity* function.
+
+```{r, eval=FALSE}
+#Load packages 
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)  # Import the example file from the AKDECtools package 
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
+                                      , package = "AKDECtools"), guess_max = 10^6)
+
+df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
+                                            , package = "AKDECtools"), guess_max = 10^6)
+
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv"
+                                         , package = "AKDECtools"), guess_max = 10^6)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 
+# Filter samples to only those with sufficient data to make MagDurFreq run more quickly
+input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
+                                            , data_sufficiency = df_Data_Sufficiency)
+
+# create reference table
+# reference_sites <- tibble(AUID_ATTNS = au_sites, ReferenceSites = sites)
+
+# run MagDurFreq_turbidity
+MagDurFreq_turbidity(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency, reference_sites)
+```
+
+### Combine
+
+The *MagDurFreq_combine* function combines MagDurFreq results from all four MagDurFreq functions. See function documentation by running `?AKDECtools::MagDurFreq_combine`.
+
+See below for an example of the *MagDurFreq_combine* function.
+
+```{r, eval=FALSE}
+#Load packages 
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)  # Import the example file from the AKDECtools package 
+df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
+                                      , package = "AKDECtools"), guess_max = 10^6)
+
+df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
+                                            , package = "AKDECtools"), guess_max = 10^6)
+
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv"
+                                         , package = "AKDECtools"), guess_max = 10^6)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example
+# Filter samples to only those with sufficient data to make MagDurFreq run more quickly
+
+input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
+                                            , data_sufficiency = df_Data_Sufficiency)
+
+# run MagDurFreq
+standard_output <- MagDurFreq(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency)
+
+# run MagDurFreq_pH
+pH_output <- MagDurFreq_pH(df_WQS_Crosswalk, df_ExampSamps, input_samples_filtered, df_Data_Sufficiency)
+
+# run MagDurFreq_hardness
+hardness_output <- MagDurFreq_hardness(df_WQS_Crosswalk, df_ExampSamps, input_samples_filtered
+                                       , df_Data_Sufficiency)
+
+# run MagDurFreq_turbidity
+# df_reference_sites <- tibble(AUID_ATTNS = au_sites, ReferenceSites = sites)
+
+turbidity_output <- MagDurFreq_turbidity(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency
+                                         , df_reference_sites)
+
+# combine data
+MagDurFreq_combine(standard_output, pH_output, hardness_output, turbidity_output)
+
+```
+
+## Categorize AUs
+
+The categorize_AU function can be applied to water quality data output from the *MagDurFreq_combine* function. First, the MagDurFreq results are assigned to IR categories for each AU/characteristic combination. Then, each AU is assigned to an overall IR category. See function documentation by running `?AKDECtools::categorize_AU`.
+
+See below for an example of the *categorize_AU* function.
+
+```{r, eval=FALSE}
+#Load packages 
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)  # Import the example file from the AKDECtools package
+
+# example final results from MagDurFreq_combine function
+df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Output.csv"
+                                              , package = "AKDECtools"), guess_max = 10^6)
+```
+
 # Graphing functions
 
 ## boxPlot
 
-The *boxPlot* function produces boxplots for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::boxPlot`.
+The *boxPlot* function produces boxplots for WQ data depending on an assessment unit identifier (AU_ID). Each water quality constituent (TADA.CharacteristicName) is plotted separately. You can also decide whether to have the y-axis be Log10-scaled. See function documentation by running `?AKDECtools::boxPlot`.
 
-Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
-
-Below are examples on how to use *boxPlot* depending on whether a user wants to create a single boxplot of an AU_ID and constituent combination or multiple boxplots from combinations of AU_IDs and constituents.
+Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function. The WQS_table is a water quality standards (WQS) crosswalk table developed by AK DEC and Tetra Tech and can be retrieved from within the package using the code below.
 
 ```{r, eval=FALSE}
-# Load packages
-library(readr) # readr is a tidyverse package to read CSVs
-library(AKDECtools)
-
-# Import the example file from the AKDECtools package
-df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
-                          , guess_max = 10^6)
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 1 - single AU and single constituent
-
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 2 - multiple AUs and single constituent
-
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 3 - single AU and multiple constituents
-
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 4 - multiple AUs and multiple constituents
-
-boxPlot(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Load water quality standards crosswalk table
+df_WQS_Crosswalk <- read_csv(system.file("extdata /AK_WQS_Crosswalk.csv", package = "AKDECtools")
+                             , guess_max = 10^6)
 ```
 
-## boxPlotlog10
-
-The *boxPlotlog10* function produces boxplots (log10 scale) for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::boxPlotlog10`.
-
-Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
-
-Below are examples on how to use *boxPlotlog10* depending on whether a user wants to create a single boxplot of an AU_ID and constituent combination or multiple boxplots from combinations of AU_IDs and constituents.
+Below is an example of how to use *boxPlot*.
 
 ```{r, eval=FALSE}
 # Load packages
 library(readr) # readr is a tidyverse package to read CSVs
 library(AKDECtools)
 
-# Import the example file from the AKDECtools package
+# Import the example files from the AKDECtools package
 df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
                           , guess_max = 10^6)
+
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv", package = "AKDECtools")
+                             , guess_max = 10^6)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1 - single AU and single constituent
 
-boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH'))
-
+boxPlot(data = df_ExampSamps, WQS_table = df_WQS_Crosswalk
+        , AU_ID = c('AK_R_1010504_005'), y_axis_log = FALSE)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 2 - multiple AUs and single constituent
-
-boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 3 - single AU and multiple constituents
-
-boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 4 - multiple AUs and multiple constituents
-
-boxPlotlog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
 ```
 
 ## timeSeries
 
-The *timeSeries* function produces time series plots for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::timeSeries`.
+The *timeSeries* function produces time series plots for WQ data depending on an assessment unit identifier (AU_ID). Each water quality constituent (TADA.CharacteristicName) is plotted separately. You can also decide whether to have the y-axis be Log10-scaled. See function documentation by running `?AKDECtools::timeSeries`.
 
-Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
-
-Below are examples on how to use *timeSeries* depending on whether a user wants to create a single time series plot of an AU_ID and constituent combination or multiple time series plots from combinations of AU_IDs and constituents.
+Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function. The WQS_table is a water quality standards (WQS) crosswalk table developed by AK DEC and Tetra Tech and can be retrieved from within the package using the code below.
 
 ```{r, eval=FALSE}
-# Load packages
-library(readr) # readr is a tidyverse package to read CSVs
-library(AKDECtools)
-
-# Import the example file from the AKDECtools package
-df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
-                          , guess_max = 10^6)
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 1 - single AU and single constituent
-
-timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 2 - multiple AUs and single constituent
-
-timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 3 - single AU and multiple constituents
-
-timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 4 - multiple AUs and multiple constituents
-
-timeSeries(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
+# Load water quality standards crosswalk table 
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv", package = "AKDECtools")
+                             , guess_max = 10^6)
 ```
 
-## timeSerieslog10
-
-The *timeSerieslog10* function produces time series plots (log10 scale) for WQ data depending on an assessment unit identifier (AU_ID) and water quality constituent (TADA.CharacteristicName). Multiple values can be entered into either argument. See function documentation by running `?AKDECtools::timeSerieslog10`.
-
-Note: TADA.CharacteristicName is automatically generated using the [*TADA::TADA_BigDataRetrieval*](https://usepa.github.io/TADA/reference/TADA_BigDataRetrieval.html) function (applyautoclean must equal TRUE). The AU_ID field should represent current assessment unit identifiers used by AK DEC. For AK DEC staff users, run raw WQP data through [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) before running this function.
-
-Below are examples on how to use *timeSerieslog10* depending on whether a user wants to create a single time series plot of an AU_ID and constituent combination or multiple time series plots from combinations of AU_IDs and constituents.
+Below is an example of how to use *timeSeries*.
 
 ```{r, eval=FALSE}
 # Load packages
@@ -234,27 +373,12 @@ library(AKDECtools)
 df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package = "AKDECtools")
                           , guess_max = 10^6)
 
+df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv", package = "AKDECtools")
+                             , guess_max = 10^6)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 1 - single AU and single constituent
-
-timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 2 - multiple AUs and single constituent
-
-timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('TEMPERATURE, WATER'))
+# Example 1
+timeSeries(data = df_ExampSamps, WQS_table = df_WQS_Crosswalk
+           , AU_ID = c('AK_R_1010504_005'), y_axis_log = F)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 3 - single AU and multiple constituents
-
-timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Example 4 - multiple AUs and multiple constituents
-
-timeSerieslog10(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
 ```

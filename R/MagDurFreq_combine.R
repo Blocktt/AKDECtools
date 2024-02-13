@@ -54,7 +54,7 @@
 #' , df_Data_Sufficiency, df_reference_sites)
 #'
 #' # combine data
-#' combine_MagDurFreq(output, output_hardness, output_pH)
+#' MagDurFreq_combine(standard_output, pH_output, hardness_output, turbidity_output)
 #'
 #'
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
