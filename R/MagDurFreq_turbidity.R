@@ -351,7 +351,7 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
   df_loop_results <- do.call("rbind", result_list) # combine results from for loop
   df_AU_data_WQS <- as.data.frame(df_loop_results) # convert to data frame
   df_AU_data_WQS <- df_AU_data_WQS %>%
-    distinct()
+    dplyr::distinct()
 
   #combine with relevant data standards table
   relevant_suff <- input_sufficiency %>%

@@ -659,7 +659,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
   df_loop_results <- do.call("rbind", result_list) # combine results from for loop
   df_AU_data_WQS <- as.data.frame(df_loop_results) # convert to data frame
   df_AU_data_WQS <- df_AU_data_WQS %>%
-    distinct()
+    dplyr::distinct()
 
   df_AU_data_WQS %>% dplyr::select(Exceed) %>% dplyr::group_by(Exceed) %>% dplyr::mutate(n = dplyr::n()) %>% unique()
 

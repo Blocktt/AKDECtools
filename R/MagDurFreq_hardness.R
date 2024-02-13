@@ -203,7 +203,6 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
               dplyr::mutate(magnitude = exp(0.7409*(log(Hardness))-4.719)*(1.101672-log(Hardness)*0.041838))
 
           }
-
           results <- joined %>%
             dplyr::group_by(ActivityStartDate) %>%
             dplyr::arrange(ActivityStartDate) %>%
@@ -348,7 +347,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
   df_loop_results <- do.call("rbind", result_list) # combine results from for loop
   df_AU_data_WQS <- as.data.frame(df_loop_results) # convert to data frame
   df_AU_data_WQS <- df_AU_data_WQS %>%
-    distinct()
+    dplyr::distinct()
 
   #combine with relevant data standards table
   relevant_suff <- input_sufficiency %>%
