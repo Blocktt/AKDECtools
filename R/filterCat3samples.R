@@ -38,7 +38,7 @@ filterCat3samples <- function(data_samples, data_sufficiency) {
     unique()
 
   samples <- data_samples %>%
-    dplyr::right_join(suff_sites, by = join_by('AUID_ATTNS'
+    dplyr::right_join(suff_sites, by = dplyr::join_by('AUID_ATTNS'
                                                , 'TADA.CharacteristicName')) %>%
     dplyr::filter(!is.na(TADA.ResultMeasureValue))
 

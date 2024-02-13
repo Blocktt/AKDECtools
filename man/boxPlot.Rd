@@ -21,6 +21,7 @@ A boxplot
 \description{
 The boxPlot function produces boxplots for WQ data depending on
 an assessment unit identifier (AU_ID). Each WQ characteristic is plotted separately.
+Individual values are plotted as points, colored by monitoring station.
 The y-axis can be Log10 scaled using a TRUE/FALSE argument.
 }
 \examples{

@@ -66,7 +66,7 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
     if(y_axis_log == F) {
       plt<-ggplot2::ggplot() +
         ggplot2::geom_point(data = filt,
-                            aes(x = ActivityStartDate,
+                            ggplot2::aes(x = ActivityStartDate,
                                 y = TADA.ResultMeasureValue,
                                 fill = MonitoringLocationIdentifier),
                             color = 'black',
@@ -85,7 +85,7 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
     } else {
       plt<-ggplot2::ggplot() +
         ggplot2::geom_point(data = filt,
-                            aes(x = ActivityStartDate,
+                            ggplot2::aes(x = ActivityStartDate,
                                 y = TADA.ResultMeasureValue,
                                 fill = MonitoringLocationIdentifier),
                             color = 'black',

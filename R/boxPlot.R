@@ -2,6 +2,7 @@
 #'
 #' The boxPlot function produces boxplots for WQ data depending on
 #' an assessment unit identifier (AU_ID). Each WQ characteristic is plotted separately.
+#' Individual values are plotted as points, colored by monitoring station.
 #' The y-axis can be Log10 scaled using a TRUE/FALSE argument.
 #'
 #' @import magrittr
@@ -66,10 +67,10 @@ boxPlot <- function(data, WQS_table, AU_ID, y_axis_log) {
     if(y_axis_log == F) {
       plt<-ggplot2::ggplot() +
         ggplot2::geom_boxplot(data = filt,
-                              aes(x = AUID_ATTNS,
+                              ggplot2::aes(x = AUID_ATTNS,
                                   y = TADA.ResultMeasureValue),
                               color = 'gray30') +
-        ggplot2::geom_jitter(data = filt, aes(x = AUID_ATTNS,
+        ggplot2::geom_jitter(data = filt, ggplot2::aes(x = AUID_ATTNS,
                                               y = TADA.ResultMeasureValue,
                                               fill = MonitoringLocationIdentifier),
                              color = 'black',
@@ -88,10 +89,10 @@ boxPlot <- function(data, WQS_table, AU_ID, y_axis_log) {
     } else {
       plt<-ggplot2::ggplot() +
         ggplot2::geom_boxplot(data = filt,
-                              aes(x = AUID_ATTNS,
+                              ggplot2::aes(x = AUID_ATTNS,
                                   y = TADA.ResultMeasureValue),
                               color = 'gray30') +
-        ggplot2::geom_jitter(data = filt, aes(x = AUID_ATTNS,
+        ggplot2::geom_jitter(data = filt, ggplot2::aes(x = AUID_ATTNS,
                                               y = TADA.ResultMeasureValue,
                                               fill = MonitoringLocationIdentifier),
                              color = 'black',
