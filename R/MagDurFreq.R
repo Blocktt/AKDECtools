@@ -450,12 +450,12 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
           unique() %>%
           #If more than 2 exceedances in 3 years assign value of 1, else 0
           #Left bound is date - 3 years, right bound is date
-          dplyr::mutate(Exceedances = ifelse(map_dbl(ActivityStartDate,
+          dplyr::mutate(Exceedances = ifelse(purrr::map_dbl(ActivityStartDate,
                                                      ~sum(bad_samp[between(ActivityStartDate, .x - years(3), .x)]))>=2, 1, 0),
                         #Give every samples a count of 1
                         r_count = 1.0,
                         #Total up number of samples in last 3 years
-                        num_samples_3yrs = map_dbl(ActivityStartDate,
+                        num_samples_3yrs = purrr::map_dbl(ActivityStartDate,
                                                    ~sum(r_count[between(ActivityStartDate, .x - years(3), .x)])),
                         #Calculate exceedance frequency
                         Exceed_Freq = Exceedances/num_samples_3yrs,
@@ -475,7 +475,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
         results <- filt %>%
           dplyr::group_by(ActivityStartDate) %>%
           dplyr::arrange(ActivityStartDate) %>%
-          dplyr::mutate(roll_4day_mean = map_dbl(ActivityStartDate,
+          dplyr::mutate(roll_4day_mean = purrr::map_dbl(ActivityStartDate,
                                                  ~mean(TADA.ResultMeasureValue[between(ActivityStartDate, .x - days(4), .x)])),
                         bad_samp = ifelse(roll_4day_mean < filter_by$Magnitude_Numeric, 1, 0))
 
@@ -485,12 +485,12 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
           unique() %>%
           #If more than 2 exceedances in 3 years assign value of 1, else 0
           #Left bound is date - 3 years, right bound is date
-          dplyr::mutate(Exceedances = ifelse(map_dbl(ActivityStartDate,
+          dplyr::mutate(Exceedances = ifelse(purrr::map_dbl(ActivityStartDate,
                                                      ~sum(bad_samp[between(ActivityStartDate, .x - years(3), .x)]))>=2, 1, 0),
                         #Give every samples a count of 1
                         r_count = 1.0,
                         #Total up number of samples in last 3 years
-                        num_samples_3yrs = map_dbl(ActivityStartDate,
+                        num_samples_3yrs = purrr::map_dbl(ActivityStartDate,
                                                    ~sum(r_count[between(ActivityStartDate, .x - years(3), .x)])),
                         #Calculate exceedance frequency
                         Exceed_Freq = Exceedances/num_samples_3yrs,
@@ -510,7 +510,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
         results <- filt %>%
           dplyr::group_by(ActivityStartDate) %>%
           dplyr::arrange(ActivityStartDate) %>%
-          dplyr::mutate(roll_4day_mean = map_dbl(ActivityStartDate,
+          dplyr::mutate(roll_4day_mean = purrr::map_dbl(ActivityStartDate,
                                                  ~mean(TADA.ResultMeasureValue[between(ActivityStartDate, .x - days(4), .x)])),
                         bad_samp = ifelse(roll_4day_mean >= filter_by$Magnitude_Numeric, 1, 0))
 
@@ -520,12 +520,12 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
           unique() %>%
           #If more than 2 exceedances in 3 years assign value of 1, else 0
           #Left bound is date - 3 years, right bound is date
-          dplyr::mutate(Exceedances = ifelse(map_dbl(ActivityStartDate,
+          dplyr::mutate(Exceedances = ifelse(purrr::map_dbl(ActivityStartDate,
                                                      ~sum(bad_samp[between(ActivityStartDate, .x - years(3), .x)]))>=2, 1, 0),
                         #Give every samples a count of 1
                         r_count = 1.0,
                         #Total up number of samples in last 3 years
-                        num_samples_3yrs = map_dbl(ActivityStartDate,
+                        num_samples_3yrs = purrr::map_dbl(ActivityStartDate,
                                                    ~sum(r_count[between(ActivityStartDate, .x - years(3), .x)])),
                         #Calculate exceedance frequency
                         Exceed_Freq = Exceedances/num_samples_3yrs,
@@ -566,7 +566,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
         results <- filt %>%
           dplyr::group_by(ActivityStartDate) %>%
           dplyr::arrange(ActivityStartDate) %>%
-          dplyr::mutate(roll_4day_mean = map_dbl(ActivityStartDate,
+          dplyr::mutate(roll_4day_mean = purrr::map_dbl(ActivityStartDate,
                                                  ~mean(TADA.ResultMeasureValue[between(ActivityStartDate, .x - days(4), .x)])),
                         bad_samp = ifelse(roll_4day_mean >= magnitude, 1, 0))
 
@@ -576,12 +576,12 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
           unique() %>%
           #If more than 2 exceedances in 3 years assign value of 1, else 0
           #Left bound is date - 3 years, right bound is date
-          dplyr::mutate(Exceedances = ifelse(map_dbl(ActivityStartDate,
+          dplyr::mutate(Exceedances = ifelse(purrr::map_dbl(ActivityStartDate,
                                                      ~sum(bad_samp[between(ActivityStartDate, .x - years(3), .x)]))>=2, 1, 0),
                         #Give every samples a count of 1
                         r_count = 1.0,
                         #Total up number of samples in last 3 years
-                        num_samples_3yrs = map_dbl(ActivityStartDate,
+                        num_samples_3yrs = purrr::map_dbl(ActivityStartDate,
                                                    ~sum(r_count[between(ActivityStartDate, .x - years(3), .x)])),
                         #Calculate exceedance frequency
                         Exceed_Freq = Exceedances/num_samples_3yrs,
@@ -611,12 +611,12 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
           unique() %>%
           #If more than 2 exceedances in 3 years assign value of 1, else 0
           #Left bound is date - 3 years, right bound is date
-          dplyr::mutate(Exceedances = ifelse(map_dbl(ActivityStartDate,
+          dplyr::mutate(Exceedances = ifelse(purrr::map_dbl(ActivityStartDate,
                                                      ~sum(bad_samp[between(ActivityStartDate, .x - years(3), .x)]))>=2, 1, 0),
                         #Give every samples a count of 1
                         r_count = 1.0,
                         #Total up number of samples in last 3 years
-                        num_samples_3yrs = map_dbl(ActivityStartDate,
+                        num_samples_3yrs = purrr::map_dbl(ActivityStartDate,
                                                    ~sum(r_count[between(ActivityStartDate, .x - years(3), .x)])),
                         #Calculate exceedance frequency
                         Exceed_Freq = Exceedances/num_samples_3yrs,
