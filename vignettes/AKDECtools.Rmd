@@ -61,25 +61,25 @@ df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv", package 
 # Example 1 - single AU and single constituent
 
 test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH'))
+                        , constituent = c('PH'))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 2 - multiple AUs and single constituent
 
 test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('TEMPERATURE, WATER'))
+                        , constituent = c('TEMPERATURE, WATER'))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 3 - single AU and multiple constituents
 
 test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
+                        , constituent = c('PH', 'TEMPERATURE, WATER'))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 4 - multiple AUs and multiple constituents
 
 test_pull <- simplePull(data = df_ExampSamps, AU_ID = c('AK_R_1010504_005', 'AK_B_1010203_001')
-, constituent = c('PH', 'TEMPERATURE, WATER'))
+                        , constituent = c('PH', 'TEMPERATURE, WATER'))
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Evaluate unique results in test_pull using the following code
@@ -117,7 +117,7 @@ input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
 
 ## MagDurFreq
 
-The following are a set of functions that evaluate input water quality data, filtered using *filterCat3samples,* against Alaska's surface water quality standards (WQS) using a crosswalk table. The crosswalk table was developed by AK DEC and Tetra Tech and can be retrieved from within the package using the code below.
+The following are a set of functions that evaluate input water quality data, filtered using *filterCat3samples,* against Alaska's surface water quality standards (WQS) using a crosswalk table. The crosswalk table was developed by AK DEC and Tetra Tech and represents all unique combinations of magnitude, duration, and frequency (MagDurFreq) rules. The table can be retrieved from within the package using the code below.
 
 ```{r, eval=FALSE}
 # Load water quality standards crosswalk table 
@@ -136,6 +136,8 @@ The functions include:
 -   **MagDurFreq_turbidity**: Applies turbidity-dependent water quality standards.
 
 -   **MagDurFreq_combine**: Combines results from all four MagDurFreq functions above.
+
+Each MagDurFreqfunction is described in detail in the following sections.
 
 ### Standard Output
 
@@ -164,6 +166,10 @@ input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
 # run MagDurFreq
 MagDurFreq(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency)
 ```
+
+Below is a generalized diagram of how the *MagDurFreq* function works. First, the function loops over every AU_ID provided in the input datasets and separates out the representative water chemistry data. Then, the relevant magnitude, duration, and frequency rules are filtered from the WQS crosswalk table depending on the water chemistry characteristics sampled within the given AU. Next, the WQS calculations are completed based on the corresponding rules and exceedances are determined. Finally, results are combined for each AU. The process repeats until all AUs are evaluated and the results are compiled. Note, that the same process occurs for the *MagDurFreq_hardness, MagDurFreq_pH,* and *MagDurFreq_turbidity* functions.
+
+![MagDurFreq example diagram.](MagDurFreq_Example.png){width="503"}
 
 ### Hardness-Dependent
 
@@ -300,7 +306,7 @@ MagDurFreq_combine(standard_output, pH_output, hardness_output, turbidity_output
 
 ## Categorize AUs
 
-The categorize_AU function can be applied to water quality data output from the *MagDurFreq_combine* function. First, the MagDurFreq results are assigned to IR categories for each AU/characteristic combination. Then, each AU is assigned to an overall IR category. See function documentation by running `?AKDECtools::categorize_AU`.
+The *categorize_AU* function can be applied to water quality data output from the *MagDurFreq_combine* function. First, the MagDurFreq results are assigned to IR categories for each AU/characteristic combination. Then, each AU is assigned to an overall IR category. See function documentation by running `?AKDECtools::categorize_AU`.
 
 See below for an example of the *categorize_AU* function.
 
@@ -313,6 +319,24 @@ library(AKDECtools)  # Import the example file from the AKDECtools package
 df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Output.csv"
                                               , package = "AKDECtools"), guess_max = 10^6)
 ```
+
+**Individual categories (for each AU/characteristic combination)**:
+
+| Rule                                    | Explanation                                                                                                      | IR Category |
+|-------------------|------------------------------------------|-----------|
+| Exceed == "No"                          | Any AU/characteristic combination, with sufficient data, that does not exceed water quality standards (WQS)      | 2           |
+| Data_Sufficient == "No"                 | Any AU/characteristic combination with insufficient data                                                         | 3           |
+| Exceed == "Insufficient hardness"       | Any AU/characteristic combination, with sufficient data, that lacks sufficient hardness data to apply WQS        | 3           |
+| Exceed == "Insufficient dependent data" | Any AU/characteristic combination, with sufficient data, that lacks sufficient pH or turbidity data to apply WQS | 3           |
+| Exceed == "Yes"                         | Any AU/characteristic combination, with sufficient data, that exceeds water quality standards (WQS)              | 5           |
+
+**Overall categories (for each AU)**:
+
+| Rule                                    | Explanation                                                                                      | IR Category |
+|------------------|--------------------------------------------|-----------|
+| cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
+| cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
+| cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
 
 # Graphing functions
 
