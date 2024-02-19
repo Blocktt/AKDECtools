@@ -61,7 +61,12 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
 
   #Return message if no samples available
   if(nrow(input_samples_filtered_relevant) == 0) {
-    return(print("Insufficient site samples for Ammonia and Pentachloro-phenol. No analysis performed."))
+    #If no samples available - just return sufficiency with empty Exceed column
+    relevant_suff <- input_sufficiency %>%
+      dplyr::filter(TADA.CharacteristicName %in% c('AMMONIA', 'PENTACHLOROPHENOL')) %>%
+      dplyr::mutate(Exceed = NA)
+
+    return(relevant_suff)
   }
 
   # use AU_Type to choose Waterbody Type in WQS table
@@ -492,7 +497,7 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
 
   #combine with relevant data standards table
   relevant_suff <- input_sufficiency %>%
-    dplyr::filter(TADA.CharacteristicName %in% c('(?i)Ammonia', 'PENTACHLOROPHENOL'))
+    dplyr::filter(TADA.CharacteristicName %in% c('AMMONIA', 'PENTACHLOROPHENOL'))
 
   data_suff_WQS <- df_AU_data_WQS %>%
     dplyr::rename(TADA.CharacteristicName = TADA.Constituent) %>%
