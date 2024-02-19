@@ -7,9 +7,7 @@
 #' magnitude, duration, and frequency components of Alaska's SWQS.
 #'
 #' @param wqs_crosswalk Water quality standards crosswalk table
-#' @param input_samples_filtered Water quality samples limited to those AUs with
-#' sufficient data for a given characteristic. Use filterCat3samples function to filter
-#' before running this function.
+#' @param input_samples_filtered Turbidity samples for the AUs listed as reference sites in reference_sites table
 #' @param input_sufficiency Data sufficiency table generated using the data_processsing.R script
 #' @param reference_sites List of paired reference sites for each AU in 'input_samples_filtered'
 #'
@@ -33,18 +31,38 @@
 #'
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Example 1
-#' # Filter samples to only those with sufficient data to make MagDurFreq
-#' ## run more quickly
-#' input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
-#' , data_sufficiency = df_Data_Sufficiency)
 #'
-#' # create reference table
-#' reference_sites <- tibble(AUID_ATTNS = au_sites
-#' , ReferenceSites = sites)
+#' # set seed
+#' set.seed(42)
+#'
+#'#Get turbidity samples
+#'turbidity_samples <- df_ExampSamps %>%
+#' filter(TADA.CharacteristicName == 'TURBIDITY') %>%
+#' filter(!is.na(AUID_ATTNS))
+#'
+#' #Pull 5 monitoring sites
+#' sites <- turbidity_samples %>%
+#' select(MonitoringLocationIdentifier) %>%
+#' unique() %>%
+#' slice_sample(n=5) %>%
+#' pull()
+#'
+#' au_sites <- turbidity_samples %>%
+#' filter(MonitoringLocationIdentifier %in% sites) %>%
+#' select(AUID_ATTNS) %>%
+#' unique() %>%
+#' pull()
+#'
+#' #Create reference site table for analysis
+#' reference_sites <- tibble(AUID_ATTNS = au_sites, ReferenceSites = sites)
+#'
+#' #Pull only samples from these AUs
+#' turbidity_samples_pull <- turbidity_samples %>%
+#' filter(AUID_ATTNS %in% reference_sites$AUID_ATTNS)
 #'
 #' # run MagDurFreq_hardness
-#' MagDurFreq_turbidity(df_WQS_Crosswalk, input_samples_filtered, df_Data_Sufficiency
-#' , reference_sites)
+#' MagDurFreq_turbidity(df_WQS_Crosswalk, turbidity_samples_pull
+#' , df_Data_Sufficiency, reference_sites)
 #'
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' }
