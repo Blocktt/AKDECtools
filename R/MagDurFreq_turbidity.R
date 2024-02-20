@@ -94,6 +94,19 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
   reference_sites_mean <- reference_sites %>%
     dplyr::left_join(pull_reference, by = c('ReferenceSites' = 'MonitoringLocationIdentifier'))
 
+  input_samples_filtered_relevant <- input_samples_filtered %>%
+    dplyr::filter(TADA.CharacteristicName == 'TURBIDITY')
+
+  #Return message if no samples available
+  if(nrow(input_samples_filtered_relevant) == 0) {
+    #If no samples available - just return sufficiency with empty Exceed column
+    relevant_suff <- input_sufficiency %>%
+      dplyr::filter(TADA.CharacteristicName == 'TURBIDITY') %>%
+      dplyr::mutate(Exceed = NA)
+
+    return(relevant_suff)
+  }
+
   # use AU_Type to choose Waterbody Type in WQS table
   Unique_AUIDs <- unique(reference_sites_mean$AUID_ATTNS) %>% stats::na.omit()
   result_list <- list()
@@ -104,7 +117,7 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
     print(i) # print name of current AU
 
     # Filter data for just AU and make water year
-    df_subset <- input_samples_filtered %>%
+    df_subset <- input_samples_filtered_relevant %>%
       dplyr::filter(AUID_ATTNS == i) %>%
       dplyr::filter(TADA.CharacteristicName == 'TURBIDITY') %>%
       dplyr::mutate(year = lubridate::year(ActivityStartDate),
