@@ -1,78 +1,3 @@
-#' Assess magnitude, duration, and frequency (turbidity dependent)
-#'
-#' The MagDurFreq_turbidity function applies Alaska's surface water quality
-#' standards (SWQS) to turbidity-dependent water quality data. Ideally, data are
-#' filtered before running this function to only include data sufficient
-#' for water quality assessments. Water quality exceedances are determined using the
-#' magnitude, duration, and frequency components of Alaska's SWQS.
-#'
-#' @param wqs_crosswalk Water quality standards crosswalk table
-#' @param input_samples_filtered Water quality samples limited to those AUs with
-#' sufficient data for a given characteristic. Use filterCat3samples function to filter
-#' before running this function.
-#' @param input_sufficiency Data sufficiency table generated using the data_processsing.R script
-#' @param reference_sites List of paired turbidity reference sites for each AU in 'input_samples_filtered'
-#'
-#' @examples
-#' # Example, data from Excel
-#'\dontrun{
-#' # Packages
-#' library(readr) # readr is a tidyverse package to read CSVs
-#' library(AKDECtools)
-#' library(dplyr)
-#'
-#' df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
-#'                                        , package = "AKDECtools")
-#'                             , guess_max = 10^6)
-#'
-#' df_WQS_Crosswalk <- read_csv(system.file("extdata/AK_WQS_Crosswalk.csv"
-#'                                        , package = "AKDECtools")
-#'                             , guess_max = 10^6)
-#'
-#' df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
-#'                                        , package = "AKDECtools")
-#'                             , guess_max = 10^6)
-#'
-#' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' # Example 1
-#'
-#' # set seed
-#' set.seed(42)
-#'
-#'# Make fake reference sites table
-#'## This is subject to change and a current example (BenB;02/20/2024)
-#'turbidity_samples <- df_ExampSamps %>%
-#' filter(TADA.CharacteristicName == 'TURBIDITY') %>%
-#' filter(!is.na(AUID_ATTNS))
-#'
-#' sites <- turbidity_samples %>%
-#' select(MonitoringLocationIdentifier) %>%
-#' unique() %>%
-#' slice_sample(n=5) %>%
-#' pull()
-#'
-#' au_sites <- turbidity_samples %>%
-#' filter(MonitoringLocationIdentifier %in% sites) %>%
-#' select(AUID_ATTNS) %>%
-#' unique() %>%
-#' pull()
-#'
-#' reference_sites <- tibble(AUID_ATTNS = au_sites, ReferenceSites = sites)
-#'
-#' #Pull only samples from these AUs
-#' turbidity_samples_pull <- turbidity_samples %>%
-#' filter(AUID_ATTNS %in% reference_sites$AUID_ATTNS)
-#'
-#' # run MagDurFreq_hardness
-#' MagDurFreq_turbidity(df_WQS_Crosswalk, turbidity_samples_pull
-#' , df_Data_Sufficiency, reference_sites)
-#'
-#' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' }
-#'
-#' @return A dataset with MagDurFreq results
-#' @export
-#'
 MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency, reference_sites) {
 
   ##Magnitude, Frequency, Duration - unique combinations
@@ -108,8 +33,8 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
       dplyr::filter(AUID_ATTNS == i) %>%
       dplyr::filter(TADA.CharacteristicName == 'TURBIDITY') %>%
       dplyr::mutate(year = lubridate::year(ActivityStartDate),
-             month = lubridate::month(ActivityStartDate),
-             w_year = ifelse(month < 10, year, year+1))
+                    month = lubridate::month(ActivityStartDate),
+                    w_year = ifelse(month < 10, year, year+1))
 
     # obtain AU_Type
     my_AU_Type <- unique(df_subset$AU_Type)

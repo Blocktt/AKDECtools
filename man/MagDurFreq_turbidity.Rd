@@ -14,11 +14,13 @@ MagDurFreq_turbidity(
 \arguments{
 \item{wqs_crosswalk}{Water quality standards crosswalk table}
 
-\item{input_samples_filtered}{Turbidity samples for the AUs listed as reference sites in reference_sites table}
+\item{input_samples_filtered}{Water quality samples limited to those AUs with
+sufficient data for a given characteristic. Use filterCat3samples function to filter
+before running this function.}
 
 \item{input_sufficiency}{Data sufficiency table generated using the data_processsing.R script}
 
-\item{reference_sites}{List of paired reference sites for each AU in 'input_samples_filtered'}
+\item{reference_sites}{List of paired turbidity reference sites for each AU in 'input_samples_filtered'}
 }
 \value{
 A dataset with MagDurFreq results
@@ -35,6 +37,8 @@ magnitude, duration, and frequency components of Alaska's SWQS.
 \dontrun{
 # Packages
 library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
+library(dplyr)
 
 df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
                                        , package = "AKDECtools")
@@ -54,12 +58,12 @@ df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
 # set seed
 set.seed(42)
 
-#Get turbidity samples
+# Make fake reference sites table
+## This is subject to change and a current example (BenB;02/20/2024)
 turbidity_samples <- df_ExampSamps \%>\%
 filter(TADA.CharacteristicName == 'TURBIDITY') \%>\%
 filter(!is.na(AUID_ATTNS))
 
-#Pull 5 monitoring sites
 sites <- turbidity_samples \%>\%
 select(MonitoringLocationIdentifier) \%>\%
 unique() \%>\%
@@ -72,7 +76,6 @@ select(AUID_ATTNS) \%>\%
 unique() \%>\%
 pull()
 
-#Create reference site table for analysis
 reference_sites <- tibble(AUID_ATTNS = au_sites, ReferenceSites = sites)
 
 #Pull only samples from these AUs
