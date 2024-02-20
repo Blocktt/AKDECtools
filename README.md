@@ -30,10 +30,7 @@ will install it.
 if(!require(remotes)){install.packages("remotes")}  #install if needed
 install_github("Blocktt/AKDECtools", force=TRUE)
 ```
-
-The vignette (big help file) isn’t created when installing from GitHub
-with the basic `install_github` command. If you want the vignette
-install with the code below.
+A [vignette](https://github.com/Blocktt/AKDECtools/blob/main/vignettes/AKDECtools.Rmd) has been created as a guide to the package functions. The vignette can be installed with the package to be viewed within the R environment using the code below.
 
 ``` r
 if(!require(remotes)){install.packages("remotes")}  #install if needed
