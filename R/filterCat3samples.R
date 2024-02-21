@@ -2,7 +2,13 @@
 #'
 #' The filterCat3samples function filters a data frame of water quality samples
 #' based on the data sufficiency output produced by data_processing.R. Only
-#' AU/characteristic combinations with Data_Sufficient == 'Yes'are kept.
+#' AU/characteristic combinations with Data_Sufficient == 'Yes' are kept.
+#'
+#' @details
+#' Required fields for input arguments
+#'
+#' * data_samples:
+#' * data_sufficiency:
 #'
 #' @param data_samples Water quality data in long format. Output from data_processing.R.
 #' @param data_sufficiency Data sufficiency by AU/characteristic. Output from data_processing.R.
@@ -11,6 +17,7 @@
 #'\dontrun{
 #' # Packages
 #' library(readr) # readr is a tidyverse package to read CSVs
+#' library(AKDECtools)
 #'
 #' df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
 #'                                        , package = "AKDECtools")
@@ -28,7 +35,7 @@
 #'
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' }
-#' @return Filtered dataset not including Category 3 AU/characteristic combinations.
+#' @return Filtered WQ dataset not including Category 3 AU/characteristic combinations.
 #' @export
 #'
 filterCat3samples <- function(data_samples, data_sufficiency) {

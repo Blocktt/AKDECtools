@@ -409,6 +409,10 @@ library(AKDECtools)  # Import the example file from the AKDECtools package
 # example final results from MagDurFreq_combine function
 df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Output.csv"
                                               , package = "AKDECtools"), guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1
+categorize_AU(df_MagDurFreq_Results)
 ```
 
 **Individual categories (for each AU/characteristic combination)**:
@@ -421,12 +425,12 @@ df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Outpu
 | Exceed == "Insufficient dependent data" | Any AU/characteristic combination, with sufficient data, that lacks sufficient pH or turbidity data to apply WQS | 3           |
 | Exceed == "Yes"                         | Any AU/characteristic combination, with sufficient data, that exceeds water quality standards (WQS)              | 5           |
 
-**Overall designated use categories (for each AU)**:
+**Overall designated use categories (for each AU/use combination)**:
 
 | Rule                                    | Explanation                                                                                      | IR Category |
 |----------------|------------------------------------------|---------------|
-| cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
 | cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
+| cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
 | cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
 
 # Graphing functions

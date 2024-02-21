@@ -6,6 +6,14 @@
 #' for water quality assessments. Water quality exceedances are determined using the
 #' magnitude, duration, and frequency components of Alaska's SWQS.
 #'
+#' @details
+#' Required fields for input arguments
+#'
+#' * wqs_crosswalk:
+#' * input_samples:
+#' * input_samples_filtered:
+#' * input_sufficiency:
+#'
 #' @param wqs_crosswalk Water quality standards crosswalk table
 #' @param input_samples All water quality samples (not limited)
 #' @param input_samples_filtered Water quality samples limited to those AUs with
@@ -18,6 +26,7 @@
 #'\dontrun{
 #' # Packages
 #' library(readr) # readr is a tidyverse package to read CSVs
+#' library(AKDECtools)
 #'
 #' df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
 #'                                        , package = "AKDECtools")

@@ -5,6 +5,13 @@
 #' constituent (TADA.CharacteristicName), or both. Multiple values can be
 #' entered into either argument.
 #'
+#' @details
+#' Required fields for input arguments
+#'
+#' * data:
+#' * AU_ID:
+#' * constituent:
+#'
 #' @import magrittr
 #'
 #' @param data A WQ dataset in long format. Must contain either AU_ID or TADA.CharacteristicName
@@ -16,6 +23,7 @@
 #'\dontrun{
 #' # Packages
 #' library(readr) # readr is a tidyverse package to read CSVs
+#' library(AKDECtools)
 #'
 #' df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
 #'                                        , package = "AKDECtools")

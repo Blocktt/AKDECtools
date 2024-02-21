@@ -5,6 +5,14 @@
 #' Individual values are plotted as points, colored by monitoring station.
 #' The y-axis can be Log10 scaled using a TRUE/FALSE argument.
 #'
+#' @details
+#' Required fields for input arguments
+#'
+#' * data:
+#' * WQS_table:
+#' * AU_ID:
+#' * y_axis_log:
+#'
 #' @import magrittr
 #'
 #' @param data A WQ dataset in long format. Must contain either AU_ID or TADA.CharacteristicName
@@ -17,6 +25,7 @@
 #'\dontrun{
 #' # Packages
 #' library(readr) # readr is a tidyverse package to read CSVs
+#' library(AKDECtools)
 #'
 #' df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
 #'                                        , package = "AKDECtools")

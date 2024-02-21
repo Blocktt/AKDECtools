@@ -1,10 +1,20 @@
-#' Assess magnitude, duration, and frequency (turbidity dependent)
+#' Assess magnitude, duration, and frequency (turbidity)
 #'
 #' The MagDurFreq_turbidity function applies Alaska's surface water quality
-#' standards (SWQS) to turbidity-dependent water quality data. Ideally, data are
+#' standards (SWQS) to turbidity water quality data. Ideally, data are
 #' filtered before running this function to only include data sufficient
 #' for water quality assessments. Water quality exceedances are determined using the
-#' magnitude, duration, and frequency components of Alaska's SWQS.
+#' magnitude, duration, and frequency components of Alaska's SWQS. Note, that
+#' turbidity SWQS depend on a reference site for each assessment unit
+#' (e.g., "May not exceed 25 NTU above natural conditions.")
+#'
+#' @details
+#' Required fields for input arguments
+#'
+#' * wqs_crosswalk:
+#' * input_samples_filtered:
+#' * input_sufficiency:
+#' * reference_sites:
 #'
 #' @param wqs_crosswalk Water quality standards crosswalk table
 #' @param input_samples_filtered Water quality samples limited to those AUs with
@@ -40,7 +50,7 @@
 #' set.seed(42)
 #'
 #'# Make fake reference sites table
-#'## This is subject to change and a current example (BenB;02/20/2024)
+#'## This is subject to change and a current example (Ben Block;02/20/2024)
 #'turbidity_samples <- df_ExampSamps %>%
 #' filter(TADA.CharacteristicName == 'TURBIDITY') %>%
 #' filter(!is.na(AUID_ATTNS))

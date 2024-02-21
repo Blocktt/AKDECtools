@@ -4,6 +4,14 @@
 #' , MagDurFreq_hardness, MagDurFreq_pH, and MagDurFreq_turbidity functions
 #' into a single data frame.
 #'
+#' @details
+#' Required fields for input arguments
+#'
+#' * standard_output:
+#' * hardness_output:
+#' * pH_output:
+#' * turbidity_output:
+#'
 #' @param standard_output Output from MagDurFreq function.
 #' @param hardness_output Output from MagDurFreq_hardness function.
 #' @param pH_output Output from MagDurFreq_pH function.
@@ -14,6 +22,7 @@
 #'\dontrun{
 #' # Packages
 #' library(readr) # readr is a tidyverse package to read CSVs
+#' library(AKDECtools)
 #'
 #' df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
 #'                                        , package = "AKDECtools")
