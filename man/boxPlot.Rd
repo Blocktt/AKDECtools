@@ -24,11 +24,21 @@ an assessment unit identifier (AU_ID). Each WQ characteristic is plotted separat
 Individual values are plotted as points, colored by monitoring station.
 The y-axis can be Log10 scaled using a TRUE/FALSE argument.
 }
+\details{
+Required fields for input arguments
+\itemize{
+\item data:
+\item WQS_table:
+\item AU_ID:
+\item y_axis_log:
+}
+}
 \examples{
 # Example, data from Excel
 \dontrun{
 # Packages
 library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
 
 df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
                                        , package = "AKDECtools")

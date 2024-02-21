@@ -22,11 +22,20 @@ dataset by either an assessment unit identifier (AU_ID), water quality
 constituent (TADA.CharacteristicName), or both. Multiple values can be
 entered into either argument.
 }
+\details{
+Required fields for input arguments
+\itemize{
+\item data:
+\item AU_ID:
+\item constituent:
+}
+}
 \examples{
 # Examples 1-4, data from Excel
 \dontrun{
 # Packages
 library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
 
 df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
                                        , package = "AKDECtools")

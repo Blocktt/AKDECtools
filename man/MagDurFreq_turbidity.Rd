@@ -2,7 +2,7 @@
 % Please edit documentation in R/MagDurFreq_turbidity.R
 \name{MagDurFreq_turbidity}
 \alias{MagDurFreq_turbidity}
-\title{Assess magnitude, duration, and frequency (turbidity dependent)}
+\title{Assess magnitude, duration, and frequency (turbidity)}
 \usage{
 MagDurFreq_turbidity(
   wqs_crosswalk,
@@ -27,10 +27,21 @@ A dataset with MagDurFreq results
 }
 \description{
 The MagDurFreq_turbidity function applies Alaska's surface water quality
-standards (SWQS) to turbidity-dependent water quality data. Ideally, data are
+standards (SWQS) to turbidity water quality data. Ideally, data are
 filtered before running this function to only include data sufficient
 for water quality assessments. Water quality exceedances are determined using the
-magnitude, duration, and frequency components of Alaska's SWQS.
+magnitude, duration, and frequency components of Alaska's SWQS. Note, that
+turbidity SWQS depend on a reference site for each assessment unit
+(e.g., "May not exceed 25 NTU above natural conditions.")
+}
+\details{
+Required fields for input arguments
+\itemize{
+\item wqs_crosswalk:
+\item input_samples_filtered:
+\item input_sufficiency:
+\item reference_sites:
+}
 }
 \examples{
 # Example, data from Excel
@@ -59,7 +70,7 @@ df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
 set.seed(42)
 
 # Make fake reference sites table
-## This is subject to change and a current example (BenB;02/20/2024)
+## This is subject to change and a current example (Ben Block;02/20/2024)
 turbidity_samples <- df_ExampSamps \%>\%
 filter(TADA.CharacteristicName == 'TURBIDITY') \%>\%
 filter(!is.na(AUID_ATTNS))

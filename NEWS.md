@@ -1,11 +1,17 @@
 MassNBCtools-NEWS
 ================
 <Ben.Block@tetratech.com>
-2024-02-13 15:08:28.460908
+2024-02-21 11:53:10.612325
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2024-02-13 15:08:28.478469
+    #> Last Update: 2024-02-21 11:53:10.628774
+
+# AKDECtools 0.0.2.9000 (2024-02-21)
+
+- Update:
+  - Rectified outstanding function issues
+  - Nearly finalized documentation of functions and vignette
 
 # AKDECtools 0.0.1.9100 (2024-02-12)
 

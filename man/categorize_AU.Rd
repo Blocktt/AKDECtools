@@ -14,13 +14,21 @@ Categorized AUs
 }
 \description{
 The categorize_AU function assigns each AU/characteristic combination to an
-IR category and then assigns an overall category to the AU.
+IR category and then assigns an overall designated use category to the AU
+for every applicable use.
+}
+\details{
+Required fields for input arguments
+\itemize{
+\item MagDurFreq_Results:
+}
 }
 \examples{
 # Example, data from Excel
 \dontrun{
 # Packages
 library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
 
 df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Output.csv"
                                        , package = "AKDECtools")

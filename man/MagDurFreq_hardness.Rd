@@ -32,11 +32,21 @@ filtered before running this function to only include data sufficient
 for water quality assessments. Water quality exceedances are determined using the
 magnitude, duration, and frequency components of Alaska's SWQS.
 }
+\details{
+Required fields for input arguments
+\itemize{
+\item wqs_crosswalk:
+\item input_samples:
+\item input_samples_filtered:
+\item input_sufficiency:
+}
+}
 \examples{
 # Example, data from Excel
 \dontrun{
 # Packages
 library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)
 
 df_ExampSamps <- read_csv(system.file("extdata/AK_Example_Samples.csv"
                                        , package = "AKDECtools")

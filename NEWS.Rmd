@@ -21,6 +21,12 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+# AKDECtools 0.0.2.9000 (2024-02-21)
+
+-   Update: 
+    - Rectified outstanding function issues
+    - Nearly finalized documentation of functions and vignette
+    
 # AKDECtools 0.0.1.9100 (2024-02-12)
 
 -   Update: 
