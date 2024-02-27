@@ -5,6 +5,12 @@
 #'as a reference site for turbidity analysis. This function is not required, but
 #'should be run before MagDurFreq_turbidity if chosen.
 #'
+#'#' @details
+#' Required fields for input arguments
+#'
+#' * input_samples_filtered: TADA.CharacteristicName, AUID_ATTNS,
+#'  MonitoringLocationIdentifier
+#'
 #' @param input_samples_filtered Water quality samples limited to those AUs with
 #' sufficient data for a given characteristic. Use filterCat3samples function to filter
 #' before running this function.
