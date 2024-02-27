@@ -6,7 +6,7 @@
 #' @details
 #' Required fields for input arguments
 #'
-#' * input_sufficiency:
+#' * input_sufficiency: TADA.CharacteristicName, Waterbody Type, Data_Sufficient
 #'
 #' @param input_sufficiency Data sufficiency table generated using the data_processsing.R script
 #'
