@@ -7,8 +7,8 @@
 #' @details
 #' Required fields for input arguments
 #'
-#' * data_samples:
-#' * data_sufficiency:
+#' * data_samples: AUID_ATTNS, TADA.CharacteristicName, TADA.ResultMeasureValue
+#' * data_sufficiency: Data_Sufficient, AUID_ATTNS, TADA.CharacteristicName
 #'
 #' @param data_samples Water quality data in long format. Output from data_processing.R.
 #' @param data_sufficiency Data sufficiency by AU/characteristic. Output from data_processing.R.
