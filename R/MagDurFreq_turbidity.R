@@ -89,7 +89,6 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
   #This is not used in the code, but instead used as reference for making the methods
   unique_methods <- wqs_crosswalk %>%
     dplyr::filter(Constituent == 'Turbidity') %>%
-
     dplyr::select(Directionality, Frequency, Duration, Details) %>%
     unique()
 
@@ -119,6 +118,7 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
     rbind(not_in_reference) %>%
     dplyr::filter(!is.na(AUID_ATTNS))
 
+
   #Return message if no samples available
   if(nrow(input_samples_filtered_relevant) == 0) {
     #If no samples available - just return sufficiency with empty Exceed column
@@ -142,7 +142,7 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
     df_subset <- input_samples_filtered_relevant %>%
       dplyr::filter(AUID_ATTNS == i) %>%
       dplyr::filter(TADA.CharacteristicName == 'TURBIDITY') %>%
-      dplyr::mutate(year = lubridate::year(ActivityStartDate),
+      mutate(year = lubridate::year(ActivityStartDate),
              month = lubridate::month(ActivityStartDate),
              w_year = ifelse(month < 10, year, year+1))
 
@@ -176,9 +176,9 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
 
     #Pull reference value for AU
     au_reference_conditions <- reference_sites_mean %>%
-      dplyr::filter(AUID_ATTNS == i) %>%
-      dplyr::select(mean_reference) %>%
-      dplyr::pull()
+      filter(AUID_ATTNS == i) %>%
+      select(mean_reference) %>%
+      pull()
 
     #Cycle through each parameter to calculate the mag/freq/dur
     for(j in 1:nrow(my_data_magfreqdur)) {
@@ -407,7 +407,7 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
   df_loop_results <- do.call("rbind", result_list) # combine results from for loop
   df_AU_data_WQS <- as.data.frame(df_loop_results) # convert to data frame
   df_AU_data_WQS <- df_AU_data_WQS %>%
-    dplyr::distinct()
+    distinct()
 
   #combine with relevant data standards table
   relevant_suff <- input_sufficiency %>%
@@ -418,7 +418,8 @@ MagDurFreq_turbidity <- function(wqs_crosswalk, input_samples_filtered, input_su
     dplyr::full_join(relevant_suff, by = c('AUID_ATTNS', 'TADA.CharacteristicName', 'Use', 'Waterbody Type',
                                            'Fraction', 'Type'),
                      relationship = "many-to-many") %>%
-    dplyr::relocate(Exceed, .after = last_col())
+    dplyr::relocate(Exceed, .after = last_col()) %>%
+    dplyr::select(!Magnitude_Text)
 
   return(data_suff_WQS)
 } #End of turbidity function
