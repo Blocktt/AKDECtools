@@ -9,10 +9,15 @@
 #' @details
 #' Required fields for input arguments
 #'
-#' * wqs_crosswalk:
-#' * input_samples:
-#' * input_samples_filtered:
-#' * input_sufficiency:
+#' * wqs_crosswalk: Constituent, Directionality, Frequency, Duration, Details, Use,
+#'  Waterbody Type, Magnitude_Text, Magnitude_Numeric
+#' * input_samples: AUID_ATTNS, TADA.CharacteristicName, ActivityStartDate,
+#'  ActivityStartTime.Time
+#' * input_samples_filtered: AUID_ATTNS, ActivityStartDate, AU_Type,
+#'  ActivityStartTime.Time, TADA.ResultMeasureValue,
+#'   TADA.ActivityDepthHeightMeasure.MeasureValue
+#' * input_sufficiency: AUID_ATTNS, TADA.CharacteristicName, Use, Waterbody Type,
+#'  Fraction, Type
 #'
 #' @param wqs_crosswalk Water quality standards crosswalk table
 #' @param input_samples All water quality samples (not limited)
