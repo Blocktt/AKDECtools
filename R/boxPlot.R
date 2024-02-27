@@ -8,10 +8,11 @@
 #' @details
 #' Required fields for input arguments
 #'
-#' * data:
-#' * WQS_table:
-#' * AU_ID:
-#' * y_axis_log:
+#' * data: TADA.CharacteristicName, AUID_ATTNS, TADA.ResultMeasureValue,
+#' MonitoringLocationIdentifier, TADA.ResultMeasure.MeasureUnitCode
+#' * WQS_table: TADA.Constituent
+#' * AU_ID: NA
+#' * y_axis_log: TRUE/FALSE
 #'
 #' @import magrittr
 #'
