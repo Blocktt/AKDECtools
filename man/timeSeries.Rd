@@ -26,10 +26,11 @@ The y-axis can be Log10 scaled using a TRUE/FALSE argument.
 \details{
 Required fields for input arguments
 \itemize{
-\item data:
-\item WQS_table:
-\item AU_ID:
-\item y_axis_log:
+\item data: TADA.CharacteristicName, AUID_ATTNS, ActivityStartDate,
+TADA.ResultMeasureValue, MonitoringLocationIdentifier, TADA.ResultMeasure.MeasureUnitCode
+\item WQS_table: TADA.Constituent
+\item AU_ID: NA
+\item y_axis_log: TRUE/FALSE
 }
 }
 \examples{

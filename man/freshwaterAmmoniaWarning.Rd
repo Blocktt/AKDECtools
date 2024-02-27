@@ -19,7 +19,7 @@ water quality analyses. Returns message.
 \details{
 Required fields for input arguments
 \itemize{
-\item input_sufficiency:
+\item input_sufficiency: TADA.CharacteristicName, Waterbody Type, Data_Sufficient
 }
 }
 \examples{

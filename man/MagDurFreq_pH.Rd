@@ -35,10 +35,14 @@ magnitude, duration, and frequency components of Alaska's SWQS.
 \details{
 Required fields for input arguments
 \itemize{
-\item wqs_crosswalk:
-\item input_samples:
-\item input_samples_filtered:
-\item input_sufficiency:
+\item wqs_crosswalk: Constituent, Directionality, Frequency, Duration, Details, Use,
+Waterbody Type, Magnitude_Text, Magnitude_Numeric
+\item input_samples: AUID_ATTNS, TADA.CharacteristicName, ActivityStartDate,
+ActivityStartTime.Time
+\item input_samples_filtered: AUID_ATTNS, ActivityStartDate, AU_Type,
+ActivityStartTime.Time, TADA.ResultMeasureValue
+\item input_sufficiency: AUID_ATTNS, TADA.CharacteristicName, Use, Waterbody Type,
+Fraction, Type
 }
 }
 \examples{

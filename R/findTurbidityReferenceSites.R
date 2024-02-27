@@ -5,7 +5,7 @@
 #'as a reference site for turbidity analysis. This function is not required, but
 #'should be run before MagDurFreq_turbidity if chosen.
 #'
-#'#' @details
+#' @details
 #' Required fields for input arguments
 #'
 #' * input_samples_filtered: TADA.CharacteristicName, AUID_ATTNS,

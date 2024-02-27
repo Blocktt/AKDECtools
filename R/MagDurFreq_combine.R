@@ -4,13 +4,6 @@
 #' , MagDurFreq_hardness, MagDurFreq_pH, and MagDurFreq_turbidity functions
 #' into a single data frame.
 #'
-#' @details
-#' Required fields for input arguments
-#'
-#' * standard_output:
-#' * hardness_output:
-#' * pH_output:
-#' * turbidity_output:
 #'
 #' @param standard_output Output from MagDurFreq function.
 #' @param hardness_output Output from MagDurFreq_hardness function.

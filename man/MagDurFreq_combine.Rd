@@ -28,15 +28,6 @@ The MagDurFreq_combine function combines output data from the MagDurFreq
 , MagDurFreq_hardness, MagDurFreq_pH, and MagDurFreq_turbidity functions
 into a single data frame.
 }
-\details{
-Required fields for input arguments
-\itemize{
-\item standard_output:
-\item hardness_output:
-\item pH_output:
-\item turbidity_output:
-}
-}
 \examples{
 # Example, data from Excel
 \dontrun{

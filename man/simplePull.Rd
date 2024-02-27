@@ -25,9 +25,9 @@ entered into either argument.
 \details{
 Required fields for input arguments
 \itemize{
-\item data:
-\item AU_ID:
-\item constituent:
+\item data: TADA.CharacteristicName, AUID_ATTNS
+\item AU_ID: NA
+\item constituent: NA
 }
 }
 \examples{

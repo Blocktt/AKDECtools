@@ -22,8 +22,8 @@ AU/characteristic combinations with Data_Sufficient == 'Yes' are kept.
 \details{
 Required fields for input arguments
 \itemize{
-\item data_samples:
-\item data_sufficiency:
+\item data_samples: AUID_ATTNS, TADA.CharacteristicName, TADA.ResultMeasureValue
+\item data_sufficiency: Data_Sufficient, AUID_ATTNS, TADA.CharacteristicName
 }
 }
 \examples{

@@ -37,10 +37,13 @@ turbidity SWQS depend on a reference site for each assessment unit
 \details{
 Required fields for input arguments
 \itemize{
-\item wqs_crosswalk:
-\item input_samples_filtered:
-\item input_sufficiency:
-\item reference_sites:
+\item wqs_crosswalk: Constituent, Directionality, Frequency, Duration, Details,
+Use, Waterbody Type, Magnitude_Text, Magnitude_Numeric
+\item input_samples_filtered: AUID_ATTNS, ActivityStartDate, AU_Type,
+ActivityStartTime.Time, TADA.ResultMeasureValue
+\item input_sufficiency: AUID_ATTNS, TADA.CharacteristicName,
+Use, Waterbody Type, Fraction, Type
+\item reference_sites: AUID_ATTNS, ReferenceSites
 }
 }
 \examples{
