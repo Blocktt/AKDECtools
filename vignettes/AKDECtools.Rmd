@@ -46,7 +46,7 @@ devtools::install_github("Blocktt/AKDECtools", build_vignettes = TRUE)
 
 -   "WQ_metadata_trimmed_with_data_sufficiency_YYYYMMDD.csv" (where YYYYMMDD is the date when the file was generated). This file should contain data sufficiency metadata for each AU/characteristic combination.
 
-Lastly, multiple *AKDECtools* functions utilize a water quality standards (WQS) crosswalk table to evaluate water quality data against the Alaska WQS. The crosswalk table was developed by AK DEC and Tetra Tech and represents all unique combinations of magnitude, duration, and frequency (MagDurFreq) rules. For more information, see [Alaska\'s Water Quality Standards](https://dec.alaska.gov/media/5xcm2h5i/18-aac-70-nov-2022.pdf) and [Alaska\'s Water Quality Manual for Toxics and other Deleterious Organic and Inorganic Substances](https://dec.alaska.gov/media/q5njdzbc/alaska-water-quality-criteria-manual-for-toxic-and-other-deleterious-organic-and-inorganic-substances-2022.pdf). A version of this tables is stored in the *AKDECtools* package and can either be manually downloaded from [GitHub](https://raw.githubusercontent.com/Blocktt/AKDECtools/main/inst/extdata/AK_WQS_Crosswalk.csv) or imported into R using the code below. This table will need to be updated to match any changes AK DEC makes to their WQS.
+Lastly, multiple *AKDECtools* functions utilize a water quality standards (WQS) crosswalk table to evaluate water quality data against the Alaska WQS. The crosswalk table was developed by AK DEC and Tetra Tech and represents all unique combinations of magnitude, duration, and frequency (MagDurFreq) rules. For more information, see [Alaska's Water Quality Standards](https://dec.alaska.gov/media/5xcm2h5i/18-aac-70-nov-2022.pdf) and [Alaska's Water Quality Manual for Toxics and other Deleterious Organic and Inorganic Substances](https://dec.alaska.gov/media/q5njdzbc/alaska-water-quality-criteria-manual-for-toxic-and-other-deleterious-organic-and-inorganic-substances-2022.pdf). A version of this tables is stored in the *AKDECtools* package and can either be manually downloaded from [GitHub](https://raw.githubusercontent.com/Blocktt/AKDECtools/main/inst/extdata/AK_WQS_Crosswalk.csv) or imported into R using the code below. This table will need to be updated to match any changes AK DEC makes to their WQS.
 
 ```{r, eval = FALSE}
 # Load crosswalk tables using the code below:
@@ -69,41 +69,43 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 # AK_Final_MagDurFreq_Output.csv
 ```
 
-| Function             | Argument               | Example Table           | Required Fields                    |
-|-----------------|-----------------|-----------------|-----------------------|
-| simplePull           | data                   | df_ExampSamps           |                                    |
-| simplePull           | AU_ID                  | *User specified*        | *NA*                               |
-| simplePull           | constituent            | *User specified*        | *NA*                               |
-| filterCat3samples    | data_samples           | df_ExampSamps           |                                    |
-| filterCat3samples    | data_sufficiency       | df_Data_Sufficiency     |                                    |
-| MagDurFreq           | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
-| MagDurFreq           | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
-| MagDurFreq           | input_sufficiency      | df_Data_Sufficiency     |                                    |
-| MagDurFreq_hardness  | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
-| MagDurFreq_hardness  | input_samples          | df_ExampSamps           |                                    |
-| MagDurFreq_hardness  | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
-| MagDurFreq_hardness  | input_sufficiency      | df_Data_Sufficiency     |                                    |
-| MagDurFreq_pH        | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
-| MagDurFreq_pH        | input_samples          | df_ExampSamps           |                                    |
-| MagDurFreq_pH        | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
-| MagDurFreq_pH        | input_sufficiency      | df_Data_Sufficiency     |                                    |
-| MagDurFreq_turbidity | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
-| MagDurFreq_turbidity | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
-| MagDurFreq_turbidity | input_sufficiency      | df_Data_Sufficiency     |                                    |
-| MagDurFreq_turbidity | reference_sites        | *NA*                    |                                    |
-| MagDurFreq_combine   | standard_output        | *NA*                    | *Output from MagDurFreq*           |
-| MagDurFreq_combine   | hardness_output        | *NA*                    | *Output from MagDurFreq_hardness*  |
-| MagDurFreq_combine   | pH_output              | *NA*                    | *Output from MagDurFreq_pH*        |
-| MagDurFreq_combine   | turbidity_output       | *NA*                    | *Output from MagDurFreq_turbidity* |
-| categorize_AU        | MagDurFreq_Results     | *NA*                    | *Output from MagDurFreq_combine*   |
-| boxPlot              | data                   | df_ExampSamps           |                                    |
-| boxPlot              | WQS_table              | df_WQS_Crosswalk        |                                    |
-| boxPlot              | AU_ID                  | *User specified*        | *NA*                               |
-| boxPlot              | y_axis_log             | *User specified*        | *TRUE/FALSE*                       |
-| timeSeries           | data                   | df_ExampSamps           |                                    |
-| timeSeries           | WQS_table              | df_WQS_Crosswalk        |                                    |
-| timeSeries           | AU_ID                  | *User specified*        | *NA*                               |
-| timeSeries           | y_axis_log             | *User specified*        | *TRUE/FALSE*                       |
+| Function                    | Argument               | Example Table           | Required Fields                    |
+|---------------------|-----------------|-----------------|-----------------|
+| simplePull                  | data                   | df_ExampSamps           |                                    |
+| simplePull                  | AU_ID                  | *User specified*        | *NA*                               |
+| simplePull                  | constituent            | *User specified*        | *NA*                               |
+| filterCat3samples           | data_samples           | df_ExampSamps           |                                    |
+| filterCat3samples           | data_sufficiency       | df_Data_Sufficiency     |                                    |
+| MagDurFreq                  | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
+| MagDurFreq                  | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
+| MagDurFreq                  | input_sufficiency      | df_Data_Sufficiency     |                                    |
+| MagDurFreq_hardness         | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
+| MagDurFreq_hardness         | input_samples          | df_ExampSamps           |                                    |
+| MagDurFreq_hardness         | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
+| MagDurFreq_hardness         | input_sufficiency      | df_Data_Sufficiency     |                                    |
+| MagDurFreq_pH               | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
+| MagDurFreq_pH               | input_samples          | df_ExampSamps           |                                    |
+| MagDurFreq_pH               | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
+| MagDurFreq_pH               | input_sufficiency      | df_Data_Sufficiency     |                                    |
+| MagDurFreq_turbidity        | wqs_crosswalk          | df_WQS_Crosswalk        |                                    |
+| MagDurFreq_turbidity        | input_samples_filtered | *Use filterCat3samples* | *NA*                               |
+| MagDurFreq_turbidity        | input_sufficiency      | df_Data_Sufficiency     |                                    |
+| MagDurFreq_turbidity        | reference_sites        | *NA*                    |                                    |
+| MagDurFreq_combine          | standard_output        | *NA*                    | *Output from MagDurFreq*           |
+| MagDurFreq_combine          | hardness_output        | *NA*                    | *Output from MagDurFreq_hardness*  |
+| MagDurFreq_combine          | pH_output              | *NA*                    | *Output from MagDurFreq_pH*        |
+| MagDurFreq_combine          | turbidity_output       | *NA*                    | *Output from MagDurFreq_turbidity* |
+| categorize_AU               | MagDurFreq_Results     | *NA*                    | *Output from MagDurFreq_combine*   |
+| boxPlot                     | data                   | df_ExampSamps           |                                    |
+| boxPlot                     | WQS_table              | df_WQS_Crosswalk        |                                    |
+| boxPlot                     | AU_ID                  | *User specified*        | *NA*                               |
+| boxPlot                     | y_axis_log             | *User specified*        | *TRUE/FALSE*                       |
+| timeSeries                  | data                   | df_ExampSamps           |                                    |
+| timeSeries                  | WQS_table              | df_WQS_Crosswalk        |                                    |
+| timeSeries                  | AU_ID                  | *User specified*        | *NA*                               |
+| timeSeries                  | y_axis_log             | *User specified*        | *TRUE/FALSE*                       |
+| freshwaterAmmoniaWarning    | input_sufficiency      | *df_Data_Sufficiency*   |                                    |
+| findTurbidityReferenceSites | input_samples_filtered | *df_ExampSamps*         |                                    |
 
 # Data manipulation functions
 
@@ -418,7 +420,7 @@ categorize_AU(df_MagDurFreq_Results)
 **Individual categories (for each AU/characteristic combination)**:
 
 | Rule                                    | Explanation                                                                                                      | IR Category |
-|--------------|--------------------------------------------|--------------|
+|----------------|----------------------------------------|----------------|
 | Exceed == "No"                          | Any AU/characteristic combination, with sufficient data, that does not exceed water quality standards (WQS)      | 2           |
 | Data_Sufficient == "No"                 | Any AU/characteristic combination with insufficient data                                                         | 3           |
 | Exceed == "Insufficient hardness"       | Any AU/characteristic combination, with sufficient data, that lacks sufficient hardness data to apply WQS        | 3           |
@@ -427,11 +429,11 @@ categorize_AU(df_MagDurFreq_Results)
 
 **Overall designated use categories (for each AU/use combination)**:
 
-| Rule                                    | Explanation                                                                                      | IR Category |
-|----------------|------------------------------------------|---------------|
-| cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
-| cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
-| cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
+| Rule                                      | Explanation                                                                                      | IR Category |
+|-----------------|---------------------------------------|-----------------|
+| cat_5\_present == 0 & cat_2\_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
+| cat_5\_present == 0 & cat_2\_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
+| cat_5\_present \> 0                       | Of the Individual Category results, there is at least one in Category 5                          | 5           |
 
 # Graphing functions
 
