@@ -219,7 +219,7 @@ input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
 
 The following are a set of functions that evaluate input water quality data, filtered using *filterCat3samples,* against Alaska's surface water quality standards (WQS) as summarized in the WQS crosswalk table. The functions include:
 
--   **MagDurFreq**: Applies water quality standards for all characteristics that are not hardness-, pH-, or turbidity.
+-   **MagDurFreq**: Applies water quality standards for all characteristics that are not hardness- or pH- dependent, or turbidity.
 
 -   **MagDurFreq_hardness**: Applies hardness-dependent water quality standards.
 
