@@ -1,5 +1,10 @@
 #' Identify the monitoring locations within AUs with sufficient turbidity
 #'
+#'This function identifies which AUs have sufficient turbidity and returns a
+#'detailed list of monitoring locations within that AU that can be selected
+#'as a reference site for turbidity analysis. This function is not required, but
+#'should be run before MagDurFreq_turbidity if chosen.
+#'
 #' @param input_samples_filtered Water quality samples limited to those AUs with
 #' sufficient data for a given characteristic. Use filterCat3samples function to filter
 #' before running this function.
