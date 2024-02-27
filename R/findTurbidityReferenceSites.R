@@ -36,7 +36,7 @@
 #' # Example 1
 #'
 #' list_of_needed_sites <- findTurbidityReferenceSites(df_ExampSamps)
-#'
+#'}
 findTurbidityReferenceSites <- function(input_samples_filtered) {
 
   #Find all AUs with sufficient turbidity
