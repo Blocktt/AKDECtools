@@ -14,8 +14,7 @@
 #' * input_samples: AUID_ATTNS, TADA.CharacteristicName, ActivityStartDate,
 #'  ActivityStartTime.Time
 #' * input_samples_filtered: AUID_ATTNS, ActivityStartDate, AU_Type,
-#'  ActivityStartTime.Time, TADA.ResultMeasureValue,
-#'   TADA.ActivityDepthHeightMeasure.MeasureValue
+#'  ActivityStartTime.Time, TADA.ResultMeasureValue
 #' * input_sufficiency: AUID_ATTNS, TADA.CharacteristicName, Use, Waterbody Type,
 #'  Fraction, Type
 #'
