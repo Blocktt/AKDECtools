@@ -8,9 +8,9 @@
 #' @details
 #' Required fields for input arguments
 #'
-#' * data:
-#' * AU_ID:
-#' * constituent:
+#' * data: TADA.CharacteristicName, AUID_ATTNS
+#' * AU_ID: NA
+#' * constituent: NA
 #'
 #' @import magrittr
 #'
