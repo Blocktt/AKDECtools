@@ -93,13 +93,14 @@ boxPlot <- function(data, WQS_table, AU_ID, y_axis_log) {
                              alpha = 0.8) +
         ggplot2::xlab('AU ID') +
         ggplot2::ylab(paste0(j, ' (', filt$TADA.ResultMeasure.MeasureUnitCode, ')')) +
-        ggplot2::theme_bw() +
+        ggplot2::theme_bw(base_size = 22) +
         viridis::scale_fill_viridis(discrete = T,
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
         ggplot2::theme(legend.position="top"
                        , text = ggplot2::element_text(family = "Open_Sans", size = 22)
-                       , axis.text = ggplot2::element_text(family = "Open_Sans"), size = 20)
+                       , axis.text = ggplot2::element_text(family = "Open_Sans", size = 20)) +
+        ggplot2::guides(fill = ggplot2::guide_legend(nrow = ceiling(length(unique(filt$MonitoringLocationIdentifier))/3)))
 
       results[[counter]] <- plt
     } else {
@@ -119,13 +120,14 @@ boxPlot <- function(data, WQS_table, AU_ID, y_axis_log) {
         ggplot2::xlab('AU ID') +
         ggplot2::ylab(paste0(j, ' (', filt$TADA.ResultMeasure.MeasureUnitCode, ')')) +
         ggplot2::scale_y_log10() +
-        ggplot2::theme_bw() +
+        ggplot2::theme_bw(base_size = 22) +
         viridis::scale_fill_viridis(discrete = T,
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
         ggplot2::theme(legend.position="top"
                        , text = ggplot2::element_text(family = "Open_Sans", size = 22)
-                       , axis.text = ggplot2::element_text(family = "Open_Sans"), size = 20)
+                       , axis.text = ggplot2::element_text(family = "Open_Sans", size = 20)) +
+        ggplot2::guides(fill = ggplot2::guide_legend(nrow = ceiling(length(unique(filt$MonitoringLocationIdentifier))/3)))
 
       results[[counter]] <- plt
     }
