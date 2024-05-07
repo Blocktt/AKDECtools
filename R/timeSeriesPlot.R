@@ -93,9 +93,8 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
         ggplot2::theme(legend.position="top"
-                       , text = ggplot2::element_text(family = "Open_Sans")
-                       , axis.text = ggplot2::element_text(family = "Open_Sans"),
-                       text=element_text(size=22))
+                       , text = ggplot2::element_text(family = "Open_Sans", size = 22)
+                       , axis.text = ggplot2::element_text(family = "Open_Sans"), size = 20)
 
       results[[counter]] <- plt
     } else {
@@ -116,9 +115,8 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
         ggplot2::theme(legend.position="top"
-                       , text = ggplot2::element_text(family = "Open_Sans")
-                       , axis.text = ggplot2::element_text(family = "Open_Sans"),
-                       text=element_text(size=22))
+                       , text = ggplot2::element_text(family = "Open_Sans", size = 22)
+                       , axis.text = ggplot2::element_text(family = "Open_Sans"), size = 20)
 
       results[[counter]] <- plt
     }
