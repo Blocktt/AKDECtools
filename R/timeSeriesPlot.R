@@ -88,7 +88,7 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
                             alpha = 0.8) +
         ggplot2::xlab('Time') +
         ggplot2::ylab(paste0(j, ' (', filt$TADA.ResultMeasure.MeasureUnitCode, ')')) +
-        ggplot2::theme_bw(base_size = 22) +
+        ggplot2::theme_bw() +
         viridis::scale_fill_viridis(discrete = T,
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
@@ -111,7 +111,7 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
         ggplot2::xlab('Time') +
         ggplot2::scale_y_log10() +
         ggplot2::ylab(paste0(j, ' (', filt$TADA.ResultMeasure.MeasureUnitCode, ')')) +
-        ggplot2::theme_bw(base_size = 22) +
+        ggplot2::theme_bw() +
         viridis::scale_fill_viridis(discrete = T,
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
