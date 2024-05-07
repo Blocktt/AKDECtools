@@ -86,6 +86,7 @@ boxPlot <- function(data, WQS_table, AU_ID, y_axis_log) {
                              color = 'black',
                              shape = 21,
                              size = 2,
+                             width = 0.2,
                              alpha = 0.8) +
         ggplot2::xlab('AU ID') +
         ggplot2::ylab(paste0(j, ' (', filt$TADA.ResultMeasure.MeasureUnitCode, ')')) +
@@ -108,6 +109,7 @@ boxPlot <- function(data, WQS_table, AU_ID, y_axis_log) {
                              color = 'black',
                              shape = 21,
                              size = 2,
+                             width = 0.2,
                              alpha = 0.8) +
         ggplot2::xlab('AU ID') +
         ggplot2::ylab(paste0(j, ' (', filt$TADA.ResultMeasure.MeasureUnitCode, ')')) +
