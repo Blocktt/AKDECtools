@@ -21,6 +21,17 @@ knitr::opts_chunk$set(
 cat(paste0("Last Update: ",Sys.time()))
 ```
 
+# AKDECtools 1.0.1.9001 (2024-04-10)
+-   Update: 
+    - Added Open Sans font to boxPlot and timeSeries functions
+    
+# AKDECtools 1.0.0 (2024-02-27)
+-   Version 1.0.0 release
+-   Update: 
+    - Rectified outstanding function issues
+    - Finalized documentation of functions and vignette
+    - Added two helper functions
+
 # AKDECtools 0.0.2.9000 (2024-02-21)
 
 -   Update: 

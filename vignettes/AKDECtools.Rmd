@@ -70,7 +70,7 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 ```
 
 | Function                    | Argument               | Example Table           | Required Fields                                                                                                                                   |
-|-----------------------------|------------------------|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+|-----------|-----------|-----------|--------------------------------------|
 | simplePull                  | data                   | df_ExampSamps           | TADA.CharacteristicName, AUID_ATTNS                                                                                                               |
 | simplePull                  | AU_ID                  | *User specified*        | *NA*                                                                                                                                              |
 | simplePull                  | constituent            | *User specified*        | *NA*                                                                                                                                              |
@@ -83,10 +83,12 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 | MagDurFreq_hardness         | input_samples          | df_ExampSamps           | AUID_ATTNS, TADA.CharacteristicName, ActivityStartDate, ActivityStartTime.Time                                                                    |
 | MagDurFreq_hardness         | input_samples_filtered | *Use filterCat3samples* | AUID_ATTNS, ActivityStartDate, AU_Type, ActivityStartTime.Time, TADA.ResultMeasureValue                                                           |
 | MagDurFreq_hardness         | input_sufficiency      | df_Data_Sufficiency     | AUID_ATTNS, TADA.CharacteristicName, Use, Waterbody Type, Fraction, Type                                                                          |
+| freshwaterAmmoniaWarning    | input_sufficiency      | df_Data_Sufficiency     | TADA.CharacteristicName, Waterbody Type, Data_Sufficient                                                                                          |
 | MagDurFreq_pH               | wqs_crosswalk          | df_WQS_Crosswalk        | Constituent, Directionality, Frequency, Duration, Details, Use, Waterbody Type, Magnitude_Text, Magnitude_Numeric                                 |
 | MagDurFreq_pH               | input_samples          | df_ExampSamps           | AUID_ATTNS, TADA.CharacteristicName, ActivityStartDate, ActivityStartTime.Time                                                                    |
 | MagDurFreq_pH               | input_samples_filtered | *Use filterCat3samples* | AUID_ATTNS, ActivityStartDate, AU_Type, ActivityStartTime.Time, TADA.ResultMeasureValue                                                           |
 | MagDurFreq_pH               | input_sufficiency      | df_Data_Sufficiency     | AUID_ATTNS, TADA.CharacteristicName, Use, Waterbody Type, Fraction, Type                                                                          |
+| findTurbidityReferenceSites | input_samples_filtered | df_ExampSamps           | TADA.CharacteristicName, AUID_ATTNS, MonitoringLocationIdentifier                                                                                 |
 | MagDurFreq_turbidity        | wqs_crosswalk          | df_WQS_Crosswalk        | Constituent, Directionality, Frequency, Duration, Details, Use, Waterbody Type, Magnitude_Text, Magnitude_Numeric                                 |
 | MagDurFreq_turbidity        | input_samples_filtered | *Use filterCat3samples* | AUID_ATTNS, ActivityStartDate, AU_Type, ActivityStartTime.Time, TADA.ResultMeasureValue                                                           |
 | MagDurFreq_turbidity        | input_sufficiency      | df_Data_Sufficiency     | AUID_ATTNS, TADA.CharacteristicName, Use, Waterbody Type, Fraction, Type                                                                          |
@@ -104,8 +106,6 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 | timeSeries                  | WQS_table              | df_WQS_Crosswalk        | TADA.Constituent                                                                                                                                  |
 | timeSeries                  | AU_ID                  | *User specified*        | *NA*                                                                                                                                              |
 | timeSeries                  | y_axis_log             | *User specified*        | *TRUE/FALSE*                                                                                                                                      |
-| freshwaterAmmoniaWarning    | input_sufficiency      | *df_Data_Sufficiency*   | TADA.CharacteristicName, Waterbody Type, Data_Sufficient                                                                                          |
-| findTurbidityReferenceSites | input_samples_filtered | *df_ExampSamps*         | TADA.CharacteristicName, AUID_ATTNS, MonitoringLocationIdentifier                                                                                 |
 
 # Data manipulation functions
 
@@ -296,6 +296,8 @@ MagDurFreq_hardness(df_WQS_Crosswalk, df_ExampSamps, input_samples_filtered, df_
 
 The *MagDurFreq_pH* function applies water quality standards for all characteristics that are pH-dependent. Inputs include the water quality data and data sufficiency results from *data_processing.R*, the data-sufficient water quality data generated using *filterCat3samples*, and the WQS crosswalk table. See function documentation by running `?AKDECtools::MagDurFreq_pH`.
 
+Note, the *freshwaterAmmoniaWarning* function checks if there is sufficient freshwater ammonia data for water quality analyses. If there is sufficient data, the *MagDurFreq_pH* function can be applied. See function documentation by running `?AKDECtools::freshwaterAmmoniaWarning`.
+
 See below for an example of the *MagDurFreq_pH* function.
 
 ```{r, eval=FALSE}
@@ -323,6 +325,8 @@ MagDurFreq_pH(df_WQS_Crosswalk, df_ExampSamps, input_samples_filtered, df_Data_S
 ### Turbidity
 
 The *MagDurFreq_turbidity* function applies turbidity water quality standards. Inputs include the turbidity water quality data and data sufficiency results from *data_processing.R*, the data-sufficient water quality data generated using *filterCat3samples*, the WQS crosswalk table, and a reference site look-up table for each AU. See function documentation by running `?AKDECtools::MagDurFreq_turbidity`.
+
+Note, the *findTurbidityReferenceSites* function identifies which AUs have sufficient turbidity samples and returns a detailed list of monitoring locations within that AU that can be selected as a reference site for turbidity analysis. This function is not required, but should be run before *MagDurFreq_turbidity*. See function documentation by running `?AKDECtools::findTurbidityReferenceSites`.
 
 See below for an example of the *MagDurFreq_turbidity* function.
 
@@ -420,7 +424,7 @@ categorize_AU(df_MagDurFreq_Results)
 **Individual categories (for each AU/characteristic combination)**:
 
 | Rule                                    | Explanation                                                                                                      | IR Category |
-|-----------------------------------------|------------------------------------------------------------------------------------------------------------------|-------------|
+|--------------|--------------------------------------------|--------------|
 | Exceed == "No"                          | Any AU/characteristic combination, with sufficient data, that does not exceed water quality standards (WQS)      | 2           |
 | Data_Sufficient == "No"                 | Any AU/characteristic combination with insufficient data                                                         | 3           |
 | Exceed == "Insufficient hardness"       | Any AU/characteristic combination, with sufficient data, that lacks sufficient hardness data to apply WQS        | 3           |
@@ -429,11 +433,11 @@ categorize_AU(df_MagDurFreq_Results)
 
 **Overall designated use categories (for each AU/use combination)**:
 
-| Rule                                      | Explanation                                                                                      | IR Category |
-|-------------------------------------------|--------------------------------------------------------------------------------------------------|-------------|
-| cat_5\_present == 0 & cat_2\_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
-| cat_5\_present == 0 & cat_2\_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
-| cat_5\_present \> 0                       | Of the Individual Category results, there is at least one in Category 5                          | 5           |
+| Rule                                    | Explanation                                                                                      | IR Category |
+|----------------|------------------------------------------|---------------|
+| cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
+| cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
+| cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
 
 # Graphing functions
 

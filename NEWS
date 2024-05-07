@@ -1,11 +1,24 @@
 MassNBCtools-NEWS
 ================
 <Ben.Block@tetratech.com>
-2024-02-27 11:32:11
+2024-04-10 12:05:59.507209
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2024-02-27 11:32:11
+    #> Last Update: 2024-04-10 12:05:59.52177
+
+# AKDECtools 1.0.1.9001 (2024-04-10)
+
+- Update:
+  - Added Open Sans font to boxPlot and timeSeries functions
+
+# AKDECtools 1.0.0 (2024-02-27)
+
+- Version 1.0.0 release
+- Update:
+  - Rectified outstanding function issues
+  - Finalized documentation of functions and vignette
+  - Added two helper functions
 
 # AKDECtools 0.0.2.9000 (2024-02-21)
 

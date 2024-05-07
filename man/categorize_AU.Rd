@@ -17,12 +17,6 @@ The categorize_AU function assigns each AU/characteristic combination to an
 IR category and then assigns an overall designated use category to the AU
 for every applicable use.
 }
-\details{
-Required fields for input arguments
-\itemize{
-\item MagDurFreq_Results:
-}
-}
 \examples{
 # Example, data from Excel
 \dontrun{

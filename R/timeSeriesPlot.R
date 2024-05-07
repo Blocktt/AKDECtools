@@ -49,6 +49,9 @@
 #'
 timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
 
+  sysfonts::font_add_google("Open Sans", family = "Open_Sans") # for fonts
+  showtext::showtext_auto() # for fonts
+
   relevant_constituents <- WQS_table %>%
     dplyr::select(TADA.Constituent) %>%
     unique() %>%
@@ -89,7 +92,9 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
         viridis::scale_fill_viridis(discrete = T,
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
-        ggplot2::theme(legend.position="top")
+        ggplot2::theme(legend.position="top"
+                       , text = ggplot2::element_text(family = "Open_Sans")
+                       , axis.text = ggplot2::element_text(family = "Open_Sans"))
 
       results[[counter]] <- plt
     } else {
@@ -109,7 +114,9 @@ timeSeries <- function(data, WQS_table, AU_ID, y_axis_log) {
         viridis::scale_fill_viridis(discrete = T,
                                     option = "mako") +
         ggplot2::labs(fill = 'Monitoring Location') +
-        ggplot2::theme(legend.position="top")
+        ggplot2::theme(legend.position="top"
+                       , text = ggplot2::element_text(family = "Open_Sans")
+                       , axis.text = ggplot2::element_text(family = "Open_Sans"))
 
       results[[counter]] <- plt
     }

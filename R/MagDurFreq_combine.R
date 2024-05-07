@@ -4,7 +4,6 @@
 #' , MagDurFreq_hardness, MagDurFreq_pH, and MagDurFreq_turbidity functions
 #' into a single data frame.
 #'
-#'
 #' @param standard_output Output from MagDurFreq function.
 #' @param hardness_output Output from MagDurFreq_hardness function.
 #' @param pH_output Output from MagDurFreq_pH function.

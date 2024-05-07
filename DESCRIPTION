@@ -1,6 +1,6 @@
 Package: AKDECtools
 Title: Tools to support Water Quality Analyses by Alaska DEC
-Version: 0.0.2.9000
+Version: 1.0.0
 Authors@R: 
     person("Benjamin D.", "Block", , "Ben.Block@tetratech.com", role = c("aut", "cre"))
     person("Hannah", "Ferriby", , "Hannah.Ferriby@tetratech.com", role = c("aut", "cre"))
@@ -8,7 +8,7 @@ Authors@R:
 Description: Provides various functions that support water quality analyses frequently undertaken by AK DEC.
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: 
     kableExtra,
     knitr,
@@ -23,7 +23,9 @@ Imports:
     psych,
     purrr,
     readr,
+    showtext,
     stringr,
+    sysfonts,
     tidyr,
     viridis,
     zoo

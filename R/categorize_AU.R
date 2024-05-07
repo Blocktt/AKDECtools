@@ -4,11 +4,6 @@
 #' IR category and then assigns an overall designated use category to the AU
 #' for every applicable use.
 #'
-#' @details
-#' Required fields for input arguments
-#'
-#' * MagDurFreq_Results:
-#'
 #' @param MagDurFreq_Results Final results from MagDurFreq_combine function.
 #'
 #' @examples
