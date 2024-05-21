@@ -92,7 +92,7 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
     print(i) # print name of current AU
 
     # dplyr::filter data
-    df_subset <- input_samples_filtered %>% #CHANGE to input_samples_filtered_relevant
+    df_subset <- input_samples_filtered_relevant %>% #CHANGE to input_samples_filtered_relevant
       dplyr::filter(AUID_ATTNS == i) %>%
       dplyr::mutate(year = lubridate::year(ActivityStartDate),
                     month = lubridate::month(ActivityStartDate),
@@ -130,7 +130,22 @@ MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, 
       counter <- counter + 1
       filter_by <- my_data_magfreqdur[j,]
 
-      filt <- df_subset %>% dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent)
+      if(is.na(filter_by$Fraction)) {
+
+        filt <- df_subset %>%
+          dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent) %>%
+          dplyr::filter(is.na(TADA.ResultSampleFractionText_new))
+
+      } else {
+
+        filt <- df_subset %>%
+          dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent) %>%
+          dplyr::filter(TADA.ResultSampleFractionText_new == toupper(filter_by$Fraction))
+      }
+
+      if(nrow(filt) == 0) {
+        next
+      }
 
       if(filter_by$Directionality == 'Maximum' & filter_by$Frequency == '1 in most recent 3 years' &
          filter_by$Duration == '1-hour average' & is.na(filter_by$Magnitude_Numeric) == T){
