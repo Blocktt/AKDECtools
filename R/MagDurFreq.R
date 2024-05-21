@@ -127,11 +127,31 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
       filter_by <- my_data_magfreqdur[j,]
 
       #Pull just that constituent data
-      filt <- df_subset %>% dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent)
+      if(is.na(filter_by$Fraction)) {
 
+        filt <- df_subset %>%
+          dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent) %>%
+          dplyr::filter(is.na(TADA.ResultSampleFractionText_new))
 
-      if(filter_by$Directionality == 'Maximum' & filter_by$Frequency == 'Not to exceed' &
-         filter_by$Duration == '30-day period' & stringr::str_detect(tidyr::replace_na(filter_by$Details, ''), '(?i)Geometric mean') == T) {
+      } else {
+
+        filt <- df_subset %>%
+          dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent) %>%
+          dplyr::filter(TADA.ResultSampleFractionText_new == toupper(filter_by$Fraction))
+      }
+
+      if(nrow(filt) == 0) {
+        next
+      }
+
+      #No decided method for analyzing sediment, set to Method not coded!
+      if (filter_by$TADA.Constituent == 'SEDIMENT') {
+
+        filter_by$AUID_ATTNS <- i
+        filter_by$Exceed <- 'Requires manual analysis'
+      }
+      else if(filter_by$Directionality == 'Maximum' & filter_by$Frequency == 'Not to exceed' &
+              filter_by$Duration == '30-day period' & stringr::str_detect(tidyr::replace_na(filter_by$Details, ''), '(?i)Geometric mean') == T) {
         #Method #1 ----
         #Maximum, not to exceed, 30-day geometric mean
         results <- filt %>%
