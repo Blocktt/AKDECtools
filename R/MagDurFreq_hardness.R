@@ -78,9 +78,16 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
     dplyr::filter(TADA.CharacteristicName %in% c('CADMIUM', 'CHROMIUM', 'COPPER', 'LEAD',
                                                  'NICKEL', 'SILVER', 'ZINC'))
 
-  #Return message if insufficient samples
+  #Return message if no samples available
   if(nrow(input_samples_filtered_relevant) == 0) {
-    return(print("Insufficient site samples for hardness dependent variables. No analysis performed."))
+    #If no samples available - just return sufficiency with empty Exceed column
+    relevant_suff <- input_sufficiency %>%
+      dplyr::filter(TADA.CharacteristicName %in% c('CADMIUM', 'CHROMIUM', 'COPPER', 'LEAD',
+                                                   'NICKEL', 'SILVER', 'ZINC')) %>%
+      dplyr::filter(Use == 'Aquatic Life') %>%
+      dplyr::mutate(Exceed = NA)
+
+    return(relevant_suff)
   }
 
   #Find unique AU IDs to cycle through
@@ -133,7 +140,22 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
       counter <- counter + 1
       filter_by <- my_data_magfreqdur[j,]
 
-      filt <- df_subset %>% dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent)
+      if(is.na(filter_by$Fraction)) {
+
+        filt <- df_subset %>%
+          dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent) %>%
+          dplyr::filter(is.na(TADA.ResultSampleFractionText_new))
+
+      } else {
+
+        filt <- df_subset %>%
+          dplyr::filter(TADA.CharacteristicName == filter_by$TADA.Constituent) %>%
+          dplyr::filter(TADA.ResultSampleFractionText_new == toupper(filter_by$Fraction))
+      }
+
+      if(nrow(filt) == 0) {
+        next
+      }
 
       if(filter_by$Directionality == 'Maximum' & filter_by$Frequency == '>=2 exceedances and >5% exceedance frequency in 3 year period' &
          filter_by$Duration == '96-hour arithmetic average' & is.na(filter_by$Magnitude_Numeric) == T &
@@ -165,7 +187,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           if(filter_by$Constituent == 'Chromium (III)'){
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -174,7 +196,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Copper') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -183,7 +205,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Lead') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -192,7 +214,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Nickel') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -201,7 +223,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Zinc') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -210,18 +232,19 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Cadmium') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
               dplyr::mutate(magnitude = exp(0.7409*(log(Hardness))-4.719)*(1.101672-log(Hardness)*0.041838))
 
           }
+
           results <- joined %>%
             dplyr::group_by(ActivityStartDate) %>%
             dplyr::arrange(ActivityStartDate) %>%
-            dplyr::mutate(roll_4day_mean = purrr::map_dbl(ActivityStartDate,
-                                                   ~mean(TADA.ResultMeasureValue[dplyr::between(ActivityStartDate, .x - lubridate::days(4), .x)])),
+            dplyr::mutate(roll_4day_mean = map_dbl(ActivityStartDate,
+                                                   ~mean(TADA.ResultMeasureValue[between(ActivityStartDate, .x - days(4), .x)])),
                           bad_samp = ifelse(roll_4day_mean >= magnitude, 1, 0))
 
           bad_tot <- results %>%
@@ -230,13 +253,13 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
             unique() %>%
             #If more than 2 exceedances in 3 years assign value of 1, else 0
             #Left bound is date - 3 years, right bound is date
-            dplyr::mutate(Exceedances = ifelse(purrr::map_dbl(ActivityStartDate,
-                                                       ~sum(bad_samp[dplyr::between(ActivityStartDate, .x - lubridate::years(3), .x)]))>=2, 1, 0),
+            dplyr::mutate(Exceedances = ifelse(map_dbl(ActivityStartDate,
+                                                       ~sum(bad_samp[between(ActivityStartDate, .x - years(3), .x)]))>=2, 1, 0),
                           #Give every samples a count of 1
                           r_count = 1.0,
                           #Total up number of samples in last 3 years
-                          num_samples_3yrs = purrr::map_dbl(ActivityStartDate,
-                                                     ~sum(r_count[dplyr::between(ActivityStartDate, .x - lubridate::years(3), .x)])),
+                          num_samples_3yrs = map_dbl(ActivityStartDate,
+                                                     ~sum(r_count[between(ActivityStartDate, .x - years(3), .x)])),
                           #Calculate exceedance frequency
                           Exceed_Freq = Exceedances/num_samples_3yrs,
                           #Determine if exceedance criteria met
@@ -278,7 +301,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           if(filter_by$Constituent == 'Chromium (III)'){
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -287,7 +310,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Copper') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -296,7 +319,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Lead') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -305,7 +328,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Nickel') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -314,7 +337,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Zinc') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -323,7 +346,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
           } else if(filter_by$Constituent == 'Cadmium') {
             #Combine matching hardness & calculate magnitude - just need one hardness value for IR cycle
             match_dates <- filt %>%
-              dplyr::left_join(hardness, by = dplyr::join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
+              dplyr::left_join(hardness, by = join_by(closest(ActivityStartDate >= Hardness.Date))) %>%
               dplyr::filter(!is.na(Hardness.Date))
             #Equation from Toxics Manual Appendix A
             joined <- match_dates %>%
@@ -361,7 +384,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
   df_loop_results <- do.call("rbind", result_list) # combine results from for loop
   df_AU_data_WQS <- as.data.frame(df_loop_results) # convert to data frame
   df_AU_data_WQS <- df_AU_data_WQS %>%
-    dplyr::distinct()
+    distinct()
 
   #combine with relevant data standards table
   relevant_suff <- input_sufficiency %>%
