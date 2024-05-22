@@ -1,4 +1,4 @@
-#' Categorize Assessment Units (AUs)
+#' Categorize Assessment Units (AUs) by Use
 #'
 #' The categorize_AU function assigns each AU/characteristic combination to an
 #' IR category and then assigns an overall designated use category to the AU
@@ -21,15 +21,15 @@
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' # Example 1
 #'
-#' categorize_AU(df_MagDurFreq_Results)
+#' categorize_AU_uses(df_MagDurFreq_Results, simplify_standards = F)
 #'
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' }
 #'
-#' @return Categorized AUs
+#' @return Categorized AUs for each use
 #' @export
 #'
-categorize_AU <- function(MagDurFreq_Results, simplify_standards){
+categorize_AU_uses <- function(MagDurFreq_Results, simplify_standards){
 
   calc_individual <- input_analysis %>%
     filter(Exceed != 'Requires manual analysis') %>%
