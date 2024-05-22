@@ -2,7 +2,7 @@
 % Please edit documentation in R/categorize_AU.R
 \name{categorize_AU}
 \alias{categorize_AU}
-\title{Categorize Assessment Units (AUs) by Use}
+\title{Categorize Overall Assessment Unit}
 \usage{
 categorize_AU(input_categorized_uses)
 }
@@ -10,7 +10,7 @@ categorize_AU(input_categorized_uses)
 \item{input_categorized_uses}{Final results from categorize_AU_uses function.}
 }
 \value{
-Categorized AUs for each use
+Overall category for each AU
 }
 \description{
 The categorize_AU function assigns each AU to an IR category.

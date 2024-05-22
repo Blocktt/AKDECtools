@@ -1,4 +1,4 @@
-#' Categorize Assessment Units (AUs) by Use
+#' Categorize Overall Assessment Unit
 #'
 #' The categorize_AU function assigns each AU to an IR category.
 #'
@@ -24,7 +24,7 @@
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' }
 #'
-#' @return Categorized AUs for each use
+#' @return Overall category for each AU
 #' @export
 #'
 
