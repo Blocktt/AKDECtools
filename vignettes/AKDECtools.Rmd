@@ -70,7 +70,7 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 ```
 
 | Function                    | Argument               | Example Table           | Required Fields                                                                                                                                   |
-|-----------|-----------|-----------|--------------------------------------|
+|---------------|---------------|---------------|----------------------------|
 | simplePull                  | data                   | df_ExampSamps           | TADA.CharacteristicName, AUID_ATTNS                                                                                                               |
 | simplePull                  | AU_ID                  | *User specified*        | *NA*                                                                                                                                              |
 | simplePull                  | constituent            | *User specified*        | *NA*                                                                                                                                              |
@@ -401,9 +401,47 @@ MagDurFreq_combine(standard_output, pH_output, hardness_output, turbidity_output
 
 ```
 
-## Categorize AUs
+## Categorize AUs by Use
 
-The *categorize_AU* function can be applied to water quality data output from the *MagDurFreq_combine* function. First, the MagDurFreq results are assigned to IR categories for each AU/characteristic combination. Then, each AU is assigned to an overall IR category per designated use. See function documentation by running `?AKDECtools::categorize_AU`.
+The *categorize_AU_uses* function can be applied to water quality data output from the *MagDurFreq_combine* function. First, the MagDurFreq results are assigned to IR categories for each AU/characteristic combination. Then, each AU is assigned to an overall IR category per designated use. See function documentation by running `?AKDECtools::categorize_AU_uses`.
+
+See below for an example of the *categorize_AU_uses* function.
+
+```{r, eval=FALSE}
+#Load packages 
+library(readr) # readr is a tidyverse package to read CSVs
+library(AKDECtools)  # Import the example file from the AKDECtools package
+
+# example final results from MagDurFreq_combine function
+df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Output.csv"
+                                              , package = "AKDECtools"), guess_max = 10^6)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example 1
+uses_categorized <- categorize_AU_uses(df_MagDurFreq_Results, simplify_standards = F)
+```
+
+**Individual categories (for each AU/characteristic combination)**:
+
+| Rule                                    | Explanation                                                                                                      | IR Category |
+|-----------------|--------------------------------------|-----------------|
+| Exceed == "No"                          | Any AU/characteristic combination, with sufficient data, that does not exceed water quality standards (WQS)      | 2           |
+| Data_Sufficient == "No"                 | Any AU/characteristic combination with insufficient data                                                         | 3           |
+| Exceed == "Insufficient hardness"       | Any AU/characteristic combination, with sufficient data, that lacks sufficient hardness data to apply WQS        | 3           |
+| Exceed == "Insufficient dependent data" | Any AU/characteristic combination, with sufficient data, that lacks sufficient pH or turbidity data to apply WQS | 3           |
+| Exceed == "Yes"                         | Any AU/characteristic combination, with sufficient data, that exceeds water quality standards (WQS)              | 5           |
+
+**Overall designated use categories (for each AU/use combination)**:
+
+| Rule                                    | Explanation                                                                                      | IR Category |
+|------------------|-------------------------------------|------------------|
+| cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
+| cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
+| cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
+
+## Categorize AUs Overall
+
+The *categorize_AU* function takes in the output of the *categorize_AU_uses* function to then assign an overall AU IR category of 2, 3, or 5. Separating the overall AU and AU by use categorization allows for analyst intervention to ensure that the use categories are aligned with AK DEC's work flow. See function documentation by running `?AKDECtools::categorize_AU`.
 
 See below for an example of the *categorize_AU* function.
 
@@ -418,26 +456,10 @@ df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Outpu
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1
-categorize_AU(df_MagDurFreq_Results)
+uses_categorized <- categorize_AU_uses(df_MagDurFreq_Results, simplify_standards = F)
+
+categorize_AU(uses_categorized)
 ```
-
-**Individual categories (for each AU/characteristic combination)**:
-
-| Rule                                    | Explanation                                                                                                      | IR Category |
-|--------------|--------------------------------------------|--------------|
-| Exceed == "No"                          | Any AU/characteristic combination, with sufficient data, that does not exceed water quality standards (WQS)      | 2           |
-| Data_Sufficient == "No"                 | Any AU/characteristic combination with insufficient data                                                         | 3           |
-| Exceed == "Insufficient hardness"       | Any AU/characteristic combination, with sufficient data, that lacks sufficient hardness data to apply WQS        | 3           |
-| Exceed == "Insufficient dependent data" | Any AU/characteristic combination, with sufficient data, that lacks sufficient pH or turbidity data to apply WQS | 3           |
-| Exceed == "Yes"                         | Any AU/characteristic combination, with sufficient data, that exceeds water quality standards (WQS)              | 5           |
-
-**Overall designated use categories (for each AU/use combination)**:
-
-| Rule                                    | Explanation                                                                                      | IR Category |
-|----------------|------------------------------------------|---------------|
-| cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
-| cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
-| cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
 
 # Graphing functions
 
