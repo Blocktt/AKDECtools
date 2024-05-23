@@ -70,7 +70,7 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 ```
 
 | Function                    | Argument               | Example Table           | Required Fields                                                                                                                                   |
-|---------------|---------------|---------------|----------------------------|
+|----------------|----------------|----------------|-------------------------|
 | simplePull                  | data                   | df_ExampSamps           | TADA.CharacteristicName, AUID_ATTNS                                                                                                               |
 | simplePull                  | AU_ID                  | *User specified*        | *NA*                                                                                                                                              |
 | simplePull                  | constituent            | *User specified*        | *NA*                                                                                                                                              |
@@ -97,7 +97,8 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 | MagDurFreq_combine          | hardness_output        | *NA*                    | *Output from MagDurFreq_hardness*                                                                                                                 |
 | MagDurFreq_combine          | pH_output              | *NA*                    | *Output from MagDurFreq_pH*                                                                                                                       |
 | MagDurFreq_combine          | turbidity_output       | *NA*                    | *Output from MagDurFreq_turbidity*                                                                                                                |
-| categorize_AU               | MagDurFreq_Results     | *NA*                    | *Output from MagDurFreq_combine*                                                                                                                  |
+| categorize_AU_uses          | MagDurFreq_Results     | *NA*                    | *Output from MagDurFreq_combine*                                                                                                                  |
+| categorize_AU               | input_categorized_uses | NA                      | categorize_AU_uses results                                                                                                                        |
 | boxPlot                     | data                   | df_ExampSamps           | TADA.CharacteristicName, AUID_ATTNS, TADA.ResultMeasureValue, MonitoringLocationIdentifier, TADA.ResultMeasure.MeasureUnitCode                    |
 | boxPlot                     | WQS_table              | df_WQS_Crosswalk        | TADA.Constituent                                                                                                                                  |
 | boxPlot                     | AU_ID                  | *User specified*        | *NA*                                                                                                                                              |
@@ -424,7 +425,7 @@ uses_categorized <- categorize_AU_uses(df_MagDurFreq_Results, simplify_standards
 **Individual categories (for each AU/characteristic combination)**:
 
 | Rule                                    | Explanation                                                                                                      | IR Category |
-|-----------------|--------------------------------------|-----------------|
+|------------------|-------------------------------------|------------------|
 | Exceed == "No"                          | Any AU/characteristic combination, with sufficient data, that does not exceed water quality standards (WQS)      | 2           |
 | Data_Sufficient == "No"                 | Any AU/characteristic combination with insufficient data                                                         | 3           |
 | Exceed == "Insufficient hardness"       | Any AU/characteristic combination, with sufficient data, that lacks sufficient hardness data to apply WQS        | 3           |
@@ -434,7 +435,7 @@ uses_categorized <- categorize_AU_uses(df_MagDurFreq_Results, simplify_standards
 **Overall designated use categories (for each AU/use combination)**:
 
 | Rule                                    | Explanation                                                                                      | IR Category |
-|------------------|-------------------------------------|------------------|
+|------------------|------------------------------------|------------------|
 | cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
 | cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
 | cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
