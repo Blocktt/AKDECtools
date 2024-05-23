@@ -1,4 +1,4 @@
-#' Categorize Assessment Units (AUs) by Use
+#' Categorize Overall Assessment Unit
 #'
 #' The categorize_AU function assigns each AU to an IR category.
 #'
@@ -24,7 +24,7 @@
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' }
 #'
-#' @return Categorized AUs for each use
+#' @return Overall category for each AU
 #' @export
 #'
 
@@ -35,7 +35,7 @@ categorize_AU <- function(input_categorized_uses){
     dplyr::group_by(AUID_ATTNS) %>%
     dplyr::mutate(cat_5_present = length(Use_Category[Use_Category=='5']),
                   cat_2_present = length(Use_Category[Use_Category=='2']),
-                  Overall_Category = case_when(cat_5_present > 0 ~ '5',
+                  Overall_Category = dplyr::case_when(cat_5_present > 0 ~ '5',
                                                cat_5_present == 0 & cat_2_present > 0 ~ '2',
                                                cat_5_present == 0 & cat_2_present == 0 ~ '3',
                                                T~ NA)) %>%

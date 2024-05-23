@@ -1,11 +1,24 @@
 MassNBCtools-NEWS
 ================
 <Ben.Block@tetratech.com>
-2024-04-10 12:05:59.507209
+2024-05-22 16:06:30.407732
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2024-04-10 12:05:59.52177
+    #> Last Update: 2024-05-22 16:06:30.421232
+
+# AKDECtools 1.0.2 (2024-05-22)
+
+- Update:
+  - Aesthetic updates to boxPlot and timeSeries functions
+  - Added filter of NA constituents to MagDurFreq_combine function
+  - Added if no samples output to MagDurFreq_hardness function
+  - Added fraction consideration to MagDurFreq and MagDurFreq_pH
+    functions
+  - Renamed categorize_AU function to categorize_AU_uses
+  - Added simplify standards argument to categorize_AU_uses function
+  - Added categorize_AU function that only categorizes the entire AU
+  - Updated vignette
 
 # AKDECtools 1.0.1.9001 (2024-04-10)
 

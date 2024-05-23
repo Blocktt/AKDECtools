@@ -2,20 +2,18 @@
 % Please edit documentation in R/categorize_AU.R
 \name{categorize_AU}
 \alias{categorize_AU}
-\title{Categorize Assessment Units (AUs)}
+\title{Categorize Overall Assessment Unit}
 \usage{
-categorize_AU(MagDurFreq_Results)
+categorize_AU(input_categorized_uses)
 }
 \arguments{
-\item{MagDurFreq_Results}{Final results from MagDurFreq_combine function.}
+\item{input_categorized_uses}{Final results from categorize_AU_uses function.}
 }
 \value{
-Categorized AUs
+Overall category for each AU
 }
 \description{
-The categorize_AU function assigns each AU/characteristic combination to an
-IR category and then assigns an overall designated use category to the AU
-for every applicable use.
+The categorize_AU function assigns each AU to an IR category.
 }
 \examples{
 # Example, data from Excel
@@ -31,7 +29,9 @@ df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Outpu
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1
 
-categorize_AU(df_MagDurFreq_Results)
+uses_categorized <- categorize_AU_uses(df_MagDurFreq_Results, simplify_standards = F)
+
+categorize_AU(uses_categorized)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
