@@ -69,6 +69,7 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
     dplyr::filter(Constituent %in% c('Cadmium', 'Chromium (III)', 'Copper', 'Lead',
                                      'Nickel', 'Silver', 'Zinc')) %>%
     dplyr::filter(Use == 'Aquatic Life') %>%
+    dplyr::filter(`Waterbody Type` == 'Freshwater') %>%
     dplyr::filter(is.na(Magnitude_Numeric)) %>%
     dplyr::select(Directionality, Frequency, Duration, Details) %>%
     unique()
@@ -390,7 +391,8 @@ MagDurFreq_hardness<- function(wqs_crosswalk, input_samples, input_samples_filte
   relevant_suff <- input_sufficiency %>%
     dplyr::filter(TADA.CharacteristicName %in% c('CADMIUM', 'CHROMIUM', 'COPPER', 'LEAD',
                                                  'NICKEL', 'SILVER', 'ZINC')) %>%
-    dplyr::filter(Use == 'Aquatic Life')
+    dplyr::filter(Use == 'Aquatic Life') %>%
+    dplyr::filter(`Waterbody Type` == 'Freshwater')
 
   data_suff_WQS <- df_AU_data_WQS %>%
     dplyr::rename(TADA.CharacteristicName = TADA.Constituent) %>%
