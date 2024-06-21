@@ -69,8 +69,7 @@ MagDurFreq_combine <- function(standard_output, hardness_output, pH_output
   output <- standard_output %>%
     rbind(hardness_output) %>%
     rbind(pH_output) %>%
-    rbind(turbidity_output) %>%
-    dplyr::filter(!is.na(Constituent))
+    rbind(turbidity_output)
 
   return(output)
 } # end MagDurFreq_combine
