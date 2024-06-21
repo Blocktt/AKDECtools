@@ -32,9 +32,10 @@
 categorize_AU_uses <- function(MagDurFreq_Results, simplify_standards){
 
   calc_individual <- input_analysis %>%
-    filter(Exceed != 'Requires manual analysis') %>%
-    filter(Exceed != 'AU not lake waters') %>%
-    filter(Exceed != 'Natural conditions less than or equal to 50 NTU') %>%
+    dplyr::mutate(Exceed = ifelse(is.na(Exceed) == T, 'N/A', Exceed)) %>%
+    dplyr::filter(Exceed != 'Requires manual analysis') %>%
+    dplyr::filter(Exceed != 'AU not lake waters') %>%
+    dplyr::filter(Exceed != 'Natural conditions less than or equal to 50 NTU') %>%
     dplyr::mutate(Individual_Category = case_when(is.na(Data_Sufficient) ~ NA,
                                                   Data_Sufficient == "No" ~ '3',
                                                   Exceed == 'Yes' ~ '5',
