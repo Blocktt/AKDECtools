@@ -40,7 +40,7 @@ devtools::install_github("Blocktt/AKDECtools", build_vignettes = TRUE)
 
 # Data sources
 
-*AKDECtools* functions require multiple input tables to run properly. For AK DEC staff users, run raw Water Quality Portal (WQP) data through the [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) script before running these functions. Specifically, you will want to use two outputs from that script:
+*AKDECtools* functions require multiple input tables to run properly. For AK DEC staff users, run raw Water Quality Portal (WQP) data through the [*data_processing.R*](https://github.com/KateriSalk/Alaska_IR_Automation/blob/main/Code/5_Data_Processing/data_processing.R) script before running these functions. Specifically, you will want to use two outputs from that script (see below). Note, any field with a "TADA.\*" prefix indicates it was generated from one of the [EPATADA package](https://github.com/USEPA/EPATADA) functions.
 
 -   "WQ_data_trimmed_long_withAU_YYYYMMDD.csv" (where YYYYMMDD is the date when the file was generated). This file should contain all water quality data with the necessary fields such as TADA.CharacteristicName and AUID_ATTNS (see table below for required fields for each function).
 
@@ -70,7 +70,7 @@ df_ExampSamps <- read_csv(system.file("extdata /AK_Example_Samples.csv", package
 ```
 
 | Function                    | Argument               | Example Table           | Required Fields                                                                                                                                   |
-|----------------|----------------|----------------|-------------------------|
+|-----------------|-----------------|-----------------|-----------------------|
 | simplePull                  | data                   | df_ExampSamps           | TADA.CharacteristicName, AUID_ATTNS                                                                                                               |
 | simplePull                  | AU_ID                  | *User specified*        | *NA*                                                                                                                                              |
 | simplePull                  | constituent            | *User specified*        | *NA*                                                                                                                                              |
@@ -425,7 +425,7 @@ uses_categorized <- categorize_AU_uses(df_MagDurFreq_Results, simplify_standards
 **Individual categories (for each AU/characteristic combination)**:
 
 | Rule                                    | Explanation                                                                                                      | IR Category |
-|------------------|-------------------------------------|------------------|
+|------------------|------------------------------------|------------------|
 | Exceed == "No"                          | Any AU/characteristic combination, with sufficient data, that does not exceed water quality standards (WQS)      | 2           |
 | Data_Sufficient == "No"                 | Any AU/characteristic combination with insufficient data                                                         | 3           |
 | Exceed == "Insufficient hardness"       | Any AU/characteristic combination, with sufficient data, that lacks sufficient hardness data to apply WQS        | 3           |
@@ -435,7 +435,7 @@ uses_categorized <- categorize_AU_uses(df_MagDurFreq_Results, simplify_standards
 **Overall designated use categories (for each AU/use combination)**:
 
 | Rule                                    | Explanation                                                                                      | IR Category |
-|------------------|------------------------------------|------------------|
+|------------------|-----------------------------------|------------------|
 | cat_5_present == 0 & cat_2_present == 0 | Of the Individual Category results, there are none in Category 2 or Category 5                   | 3           |
 | cat_5_present == 0 & cat_2_present \> 0 | Of the Individual Category results, there are none in Category 5, but at least one in Category 2 | 2           |
 | cat_5_present \> 0                      | Of the Individual Category results, there is at least one in Category 5                          | 5           |
