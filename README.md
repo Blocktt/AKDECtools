@@ -46,4 +46,4 @@ Program](https://dec.alaska.gov/water/water-quality/monitoring-and-assessment/).
 
 ## Status
 
-In development.
+Package completed by Tetra Tech. AKDEC may update in the future.
