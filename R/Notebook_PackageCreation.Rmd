@@ -55,8 +55,10 @@ setwd(paste0("./", myPkg))
 help(package=(myPkg))
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
+
 ```{r, eval=FALSE}
 #Hannah added
+library(devtools)
 getwd()
 list.files()
 

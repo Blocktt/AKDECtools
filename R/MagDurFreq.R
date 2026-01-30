@@ -200,7 +200,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
 
         results <- filt %>%
           dplyr::group_by(w_year) %>%
-          dplyr::mutate(wyear_row = n(),
+          dplyr::mutate(wyear_row = dplyr::n(),
                         bad_samp = ifelse(TADA.ResultMeasureValue > filter_by$Magnitude_Numeric, 1, 0),
                         sum = sum(bad_samp),
                         bad_year = ifelse(sum/wyear_row>=0.1, 1, 0),
@@ -319,7 +319,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
                            .groups = "drop") %>%
           unique() %>%
           dplyr::mutate(year = lubridate::year(ActivityStartDate),
-                        day_row = n(),
+                        day_row = dplyr::n(),
                         bad_samp = ifelse(daily_mean < filter_by$Magnitude_Numeric, 1, 0),
                         sum = sum(bad_samp),
                         bad_year = ifelse(sum/day_row>=0.1, 1, 0),
@@ -345,7 +345,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
                            .groups = "drop") %>%
           unique() %>%
           dplyr::mutate(year = lubridate::year(ActivityStartDate),
-                        day_row = n(),
+                        day_row = dplyr::n(),
                         bad_samp = ifelse(daily_mean < filter_by$Magnitude_Numeric, 1, 0),
                         sum = sum(bad_samp),
                         bad_year = ifelse(sum/day_row>=0.1, 1, 0),
@@ -438,7 +438,7 @@ MagDurFreq <- function(wqs_crosswalk, input_samples_filtered, input_sufficiency)
         #Maximum, 10%, not to exceed
 
         results <- filt %>%
-          dplyr::mutate(num_samples = n(),
+          dplyr::mutate(num_samples = dplyr::n(),
                         bad_samp = ifelse(TADA.ResultMeasureValue > filter_by$Magnitude_Numeric, 1, 0),
                         sum = sum(bad_samp),
                         bad_year = ifelse(sum/num_samples>=0.1, 1, 0),

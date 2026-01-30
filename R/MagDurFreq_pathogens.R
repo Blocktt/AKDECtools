@@ -49,7 +49,7 @@
 #' input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
 #' , data_sufficiency = df_Data_Sufficiency)
 #'
-#' MagDurFreq_pathogens(df_WQS_Crosswalk, input_samples_filtered
+#' MagDurFreq_pathogens(input_samples_filtered, df_WQS_Crosswalk
 #' , df_Data_Sufficiency)
 #'
 #' #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,13 +62,13 @@
 MagDurFreq_pathogens <- function(input_samples_filtered, wqs_crosswalk, input_sufficiency) {
 
   pathogen_criteria <- wqs_crosswalk %>%
-    dplyr::filter(`Constituent Group` == "Bacteria") %>%
+    dplyr::filter(.data[["Constituent Group"]] == "Bacteria") %>%
     dplyr::select(!Magnitude_Text)
 
   pathogen_data <- input_samples_filtered %>%
     dplyr::filter(TADA.CharacteristicName %in% unique(pathogen_criteria$TADA.Constituent)) %>%
-    dplyr::mutate(year = year(ActivityStartDate),
-                  month = month(ActivityStartDate),
+    dplyr::mutate(year = lubridate::year(ActivityStartDate),
+                  month = lubridate::month(ActivityStartDate),
                   w_year = ifelse(month < 10, year, year + 1))
 
   result_list <- list()
@@ -140,8 +140,8 @@ MagDurFreq_pathogens <- function(input_samples_filtered, wqs_crosswalk, input_su
                   list(Exceed = exceed, GeomVal = geom_val)
                 }),
                 # unpack list-cols into two new columns
-                Exceed   = map_lgl(res, "Exceed"),
-                GeomVal  = map_dbl(res, "GeomVal")
+                Exceed = purrr::map_lgl(res, "Exceed"),
+                GeomVal = purrr::map_dbl(res, "GeomVal")
               ) %>%
               dplyr::select(-res)
           }) %>%
@@ -159,7 +159,7 @@ MagDurFreq_pathogens <- function(input_samples_filtered, wqs_crosswalk, input_su
         pct_exceed_years <- filt_df %>%
           dplyr::group_by(w_year) %>%
           dplyr::summarise(
-            total = n(),
+            total = dplyr::n(),
             exceed = sum(TADA.ResultMeasureValue >= crit2$Magnitude_Numeric, na.rm = TRUE),
             freq = exceed / total
           ) %>%

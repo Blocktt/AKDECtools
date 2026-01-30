@@ -61,7 +61,7 @@
 #' @return A dataset with MagDurFreq results
 #' @export
 #'
-MagDurFreq_pHDependent <- function(wqs_crosswalk, input_samples, input_samples_filtered, input_sufficiency) {
+MagDurFreq_pH <- function(wqs_crosswalk, input_samples, input_samples_filtered, input_sufficiency) {
   ##Magnitude, Frequency, Duration
   unique_methods <- wqs_crosswalk %>%
     dplyr::filter(Constituent %in% c('Ammonia') |

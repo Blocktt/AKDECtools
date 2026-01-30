@@ -62,7 +62,7 @@
 #' @return A dataset with MagDurFreq results
 #' @export
 #'
-MagDurFreq_hardnessDependent <- function(wqs_crosswalk, input_samples, input_samples_filtered, input_sufficiency) {
+MagDurFreq_hardness <- function(wqs_crosswalk, input_samples, input_samples_filtered, input_sufficiency) {
   ##Magnitude, Frequency, Duration
   #Not used in code, but as a resource for creating/updating methods
   unique_methods <- wqs_crosswalk %>%
@@ -398,7 +398,7 @@ MagDurFreq_hardnessDependent <- function(wqs_crosswalk, input_samples, input_sam
   df_loop_results <- do.call("rbind", result_list) # combine results from for loop
   df_AU_data_WQS <- as.data.frame(df_loop_results) # convert to data frame
   df_AU_data_WQS <- df_AU_data_WQS %>%
-    distinct()
+    dplyr::distinct()
 
   #combine with relevant data standards table
   relevant_suff <- input_sufficiency %>%

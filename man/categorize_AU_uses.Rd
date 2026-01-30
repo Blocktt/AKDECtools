@@ -4,10 +4,12 @@
 \alias{categorize_AU_uses}
 \title{Categorize Assessment Units (AUs) by Use}
 \usage{
-categorize_AU_uses(MagDurFreq_Results, simplify_standards)
+categorize_AU_uses(MagDurFreq_Results, assessments, simplify_standards)
 }
 \arguments{
 \item{MagDurFreq_Results}{Final results from MagDurFreq_combine function.}
+
+\item{assessments}{Assessment data from ATTAINS expert query found at https://owapps.epa.gov/expertquery/attains/}
 
 \item{simplify_standards}{True/False input to condense final category for constituents
 with multiple standards per use.}
@@ -31,10 +33,14 @@ df_MagDurFreq_Results <- read_csv(system.file("extdata/AK_Final_MagDurFreq_Outpu
                                        , package = "AKDECtools")
                                        , guess_max = 10^6)
 
+df_Assessments <- read_csv(system.file("extdata/AK_Assessments.csv"
+                                       , package = "AKDECtools")
+                                       , guess_max = 10^6)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1
 
-categorize_AU_uses(df_MagDurFreq_Results, simplify_standards = F)
+categorize_AU_uses(df_MagDurFreq_Results, df_Assessments, simplify_standards = F)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }

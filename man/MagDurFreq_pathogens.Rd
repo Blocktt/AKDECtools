@@ -63,7 +63,7 @@ df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
 input_samples_filtered <- filterCat3samples(data_samples = df_ExampSamps
 , data_sufficiency = df_Data_Sufficiency)
 
-MagDurFreq_pathogens(df_WQS_Crosswalk, input_samples_filtered
+MagDurFreq_pathogens(input_samples_filtered, df_WQS_Crosswalk
 , df_Data_Sufficiency)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
