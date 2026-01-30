@@ -37,11 +37,15 @@ categorize_AU_uses <- function(MagDurFreq_Results, simplify_standards){
     dplyr::filter(Exceed != 'AU not lake waters') %>%
     dplyr::filter(Exceed != 'Natural conditions less than or equal to 50 NTU') %>%
     dplyr::mutate(Individual_Category = case_when(is.na(Data_Sufficient) ~ NA,
+                                                  (PARAM_ATTAINMENT_CODE_new != '3' &
+                                                     Data_Sufficient == 'No') ~
+                                                    PARAM_ATTAINMENT_CODE_new,
                                                   Data_Sufficient == "No" ~ '3',
                                                   Exceed == 'Yes' ~ '5',
                                                   Exceed == 'No' ~ '2',
                                                   Exceed == 'Insufficient hardness' ~ '3',
                                                   Exceed == 'Insufficient dependent data' ~ '3',
+                                                  Exceed == 'Admin cat 3' ~ '3',
                                                   T ~ NA))
 
   if(simplify_standards == T){
@@ -69,7 +73,7 @@ categorize_AU_uses <- function(MagDurFreq_Results, simplify_standards){
 
 
   calc_overall <- mid_step %>%
-    dplyr::group_by(AUID_ATTNS, Use) %>%
+    dplyr::group_by(AUID_ATTNS, Use, `Use Description`) %>%
     dplyr::mutate(cat_5_present = length(Individual_Category[Individual_Category=='5']),
                   cat_2_present = length(Individual_Category[Individual_Category=='2']),
                   Use_Category = case_when(cat_5_present > 0 ~ '5',
