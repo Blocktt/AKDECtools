@@ -1806,7 +1806,7 @@ help(package=(myPkg))
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjpbIiNIYW5uYWggYWRkZWQiLCJsaWJyYXJ5KGRldnRvb2xzKSIsImdldHdkKCkiLCJsaXN0LmZpbGVzKCkiLCIiLCJwa2dfcm9vdCA8LSBcIi4uL1wiICAjY29udGFpbnMgdGhlIEFLREVDdG9vbHMgZGlyZWN0b3J5IiwicGtnX2RpciAgPC0gZmlsZS5wYXRoKHBrZ19yb290KSIsIiIsImRpci5leGlzdHMocGtnX2RpcikgIiwiZmlsZS5leGlzdHMoZmlsZS5wYXRoKHBrZ19kaXIsIFwiTkVXUy5SbWRcIikpIiwiZmlsZS5leGlzdHMoZmlsZS5wYXRoKHBrZ19kaXIsIFwiREVTQ1JJUFRJT05cIikpICAjbXVzdCBiZSBUUlVFIiwiIiwicm1hcmtkb3duOjpyZW5kZXIoZmlsZS5wYXRoKHBrZ19kaXIsIFwiTkVXUy5SbWRcIiksIG91dHB1dF9mb3JtYXQgPSBcImFsbFwiKSIsIiIsIiIsIiMgRG9jdW1lbnQgKyBpbnN0YWxsIiwiZGV2dG9vbHM6OmRvY3VtZW50KHBrZyA9IHBrZ19kaXIpIiwiZGV2dG9vbHM6Omluc3RhbGwocGtnID0gcGtnX2RpciwgcXVpY2sgPSBGQUxTRSwgcmVsb2FkID0gVFJVRSwgYnVpbGRfdmlnbmV0dGVzID0gVFJVRSkiLCIiLCIiXX0= -->
+<!-- rnb-source-begin eyJkYXRhIjpbIiNIYW5uYWggYWRkZWQiLCJsaWJyYXJ5KGRldnRvb2xzKSIsImdldHdkKCkiLCJsaXN0LmZpbGVzKCkiLCIiLCJwa2dfcm9vdCA8LSBcIi4uL1wiICAjY29udGFpbnMgdGhlIEFLREVDdG9vbHMgZGlyZWN0b3J5IiwicGtnX2RpciAgPC0gZmlsZS5wYXRoKHBrZ19yb290KSIsIiIsImRpci5leGlzdHMocGtnX2RpcikgIiwiZmlsZS5leGlzdHMoZmlsZS5wYXRoKHBrZ19kaXIsIFwiTkVXUy5SbWRcIikpIiwiZmlsZS5leGlzdHMoZmlsZS5wYXRoKHBrZ19kaXIsIFwiREVTQ1JJUFRJT05cIikpICAjbXVzdCBiZSBUUlVFIiwiIiwicm1hcmtkb3duOjpyZW5kZXIoZmlsZS5wYXRoKHBrZ19kaXIsIFwiTkVXUy5SbWRcIiksIG91dHB1dF9mb3JtYXQgPSBcImFsbFwiKSIsIiIsIiIsIiMgRG9jdW1lbnQgKyBpbnN0YWxsIiwiZGV2dG9vbHM6OmRvY3VtZW50KHBrZyA9IHBrZ19kaXIpIiwiZGV2dG9vbHM6Omluc3RhbGwocGtnID0gcGtnX2RpciwgcXVpY2sgPSBGQUxTRSwgcmVsb2FkID0gVFJVRSwgYnVpbGRfdmlnbmV0dGVzID0gVFJVRSkiXX0= -->
 <pre class="r"><code>#Hannah added
 library(devtools)
 getwd()
@@ -1824,8 +1824,7 @@ rmarkdown::render(file.path(pkg_dir, &quot;NEWS.Rmd&quot;), output_format = &quo
 
 # Document + install
 devtools::document(pkg = pkg_dir)
-devtools::install(pkg = pkg_dir, quick = FALSE, reload = TRUE, build_vignettes = TRUE)
-</code></pre>
+devtools::install(pkg = pkg_dir, quick = FALSE, reload = TRUE, build_vignettes = TRUE)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->

@@ -1,11 +1,16 @@
 AKDECtools-NEWS
 ================
 <Ben.Block@tetratech.com> & <Hannah.Ferriby@tetratech.com>
-2026-01-30 16:12:23.350869
+2026-01-30 16:23:11.65177
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2026-01-30 16:12:23.375737
+    #> Last Update: 2026-01-30 16:23:11.668424
+
+# AKDECtools 1.0.3.1000 (2026-01-30)
+
+- Update:
+  - Bug fixes
 
 # AKDECtools 1.0.3 (2026-01-30)
 
