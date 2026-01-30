@@ -27,6 +27,7 @@ file.remove("NEWS.html")
 myPkg <- "AKDECtools"
 # Load Library
 library(devtools)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create Package
 # create(myLibrary)
@@ -54,3 +55,25 @@ setwd(paste0("./", myPkg))
 help(package=(myPkg))
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
+```{r, eval=FALSE}
+#Hannah added
+getwd()
+list.files()
+
+pkg_root <- "../"  #contains the AKDECtools directory
+pkg_dir  <- file.path(pkg_root)
+
+dir.exists(pkg_dir) 
+file.exists(file.path(pkg_dir, "NEWS.Rmd"))
+file.exists(file.path(pkg_dir, "DESCRIPTION"))  #must be TRUE
+
+rmarkdown::render(file.path(pkg_dir, "NEWS.Rmd"), output_format = "all")
+
+
+# Document + install
+devtools::document(pkg = pkg_dir)
+devtools::install(pkg = pkg_dir, quick = FALSE, reload = TRUE, build_vignettes = TRUE)
+
+
+```
+

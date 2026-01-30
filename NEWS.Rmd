@@ -1,6 +1,6 @@
 ---
-title: "MassNBCtools-NEWS"
-author: "Ben.Block@tetratech.com"
+title: "AKDECtools-NEWS"
+author: "Ben.Block@tetratech.com & Hannah.Ferriby@tetratech.com"
 date: "`r Sys.time()`"
 output: github_document
   #md_document:
@@ -20,7 +20,16 @@ knitr::opts_chunk$set(
 ```{r, echo = FALSE}
 cat(paste0("Last Update: ",Sys.time()))
 ```
-
+# AKDECtools 1.0.3 (2026-01-30)
+-   Update:
+    - Added pathogens MagDurFreq function
+    - Updated all MagDurFreq functions 
+    - Updated categorize_AU_uses function
+    - Made edits to the vignette including adding a new section for pathogens
+    - Updated existing example datasets 
+    - Updated existing test datasets
+    - Added turbidity_sites.csv to the example datasets
+    
 # AKDECtools 1.0.2 (2024-05-22)
 -   Update:
     - Aesthetic updates to boxPlot and timeSeries functions

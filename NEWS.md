@@ -1,11 +1,23 @@
-MassNBCtools-NEWS
+AKDECtools-NEWS
 ================
-<Ben.Block@tetratech.com>
-2024-07-03 09:40:56.997371
+<Ben.Block@tetratech.com> & <Hannah.Ferriby@tetratech.com>
+2026-01-30 14:23:21.348493
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2024-07-03 09:40:57.01659
+    #> Last Update: 2026-01-30 14:23:21.368122
+
+# AKDECtools 1.0.3 (2026-01-30)
+
+- Update:
+  - Added pathogens MagDurFreq function
+  - Updated all MagDurFreq functions
+  - Updated categorize_AU_uses function
+  - Made edits to the vignette including adding a new section for
+    pathogens
+  - Updated existing example datasets
+  - Updated existing test datasets
+  - Added turbidity_sites.csv to the example datasets
 
 # AKDECtools 1.0.2 (2024-05-22)
 

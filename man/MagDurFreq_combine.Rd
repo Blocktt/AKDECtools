@@ -8,7 +8,8 @@ MagDurFreq_combine(
   standard_output,
   hardness_output,
   pH_output,
-  turbidity_output
+  turbidity_output,
+  pathogens_output
 )
 }
 \arguments{
@@ -19,13 +20,15 @@ MagDurFreq_combine(
 \item{pH_output}{Output from MagDurFreq_pH function.}
 
 \item{turbidity_output}{Output from MagDurFreq_turbidity function.}
+
+\item{pathogens_output}{Output from MagDurFreq_pathogens function.}
 }
 \value{
 A combined dataset with MagDurFreq results
 }
 \description{
 The MagDurFreq_combine function combines output data from the MagDurFreq
-, MagDurFreq_hardness, MagDurFreq_pH, and MagDurFreq_turbidity functions
+, MagDurFreq_hardness, MagDurFreq_pH, MagDurFreq_turbidity, and MagDurFreq_pathogens functions
 into a single data frame.
 }
 \examples{
@@ -47,6 +50,9 @@ df_Data_Sufficiency <- read_csv(system.file("extdata/AK_Data_Sufficiency.csv"
                                        , package = "AKDECtools")
                             , guess_max = 10^6)
 
+df_Turbidity_Sites <- read_csv(system.file("extdata/turbidity_sites.csv"
+                                       , package = "AKDECtools")
+                                       , guess_max = 10^6)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example 1
 # Filter samples to only those with sufficient data to make MagDurFreq
@@ -68,13 +74,15 @@ hardness_output <- MagDurFreq_hardness(df_WQS_Crosswalk, df_ExampSamps
 , input_samples_filtered, df_Data_Sufficiency)
 
 # run MagDurFreq_turbidity
-df_reference_sites <- tibble(AUID_ATTNS = au_sites, ReferenceSites = sites)
-
 turbidity_output <- MagDurFreq_turbidity(df_WQS_Crosswalk, input_samples_filtered
-, df_Data_Sufficiency, df_reference_sites)
+, df_Data_Sufficiency, df_Tubidity_Sites)
+
+# run MagDurFreq_pathogens
+pathogens_output <-  MagDurFreq_pathogens(df_WQS_Crosswalk, input_samples_filtered
+, df_Data_Sufficiency)
 
 # combine data
-MagDurFreq_combine(standard_output, pH_output, hardness_output, turbidity_output)
+MagDurFreq_combine(standard_output, pH_output, hardness_output, turbidity_output, pathogens_output)
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -2,8 +2,9 @@
 
 export(MagDurFreq)
 export(MagDurFreq_combine)
-export(MagDurFreq_hardness)
-export(MagDurFreq_pH)
+export(MagDurFreq_hardnessDependent)
+export(MagDurFreq_pHDependent)
+export(MagDurFreq_pathogens)
 export(MagDurFreq_turbidity)
 export(boxPlot)
 export(categorize_AU)
